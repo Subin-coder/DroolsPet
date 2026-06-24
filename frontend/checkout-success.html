@@ -1,0 +1,21 @@
+checkout-success.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Success - PetSupply E-Commerce</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div style="text-align: center; padding: 60px 20px;">
+            <script>
+                // Redirect to order confirmation with success status
+                const params = new URLSearchParams(window.location.search);
+                window.location.href = 'order-confirmation.html?status=success&' + params.toString();
+            </script>
+        </div>
+    </div>
+</body>
+</html>

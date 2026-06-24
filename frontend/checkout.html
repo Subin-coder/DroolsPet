@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - DroolsPet</title>
+    <meta name="description" content="Complete your DroolsPet order with secure checkout." />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Drools<span>Pet</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="cart.html">Cart</a></li>
+            </ul>
+            <div class="nav-right">
+                <a href="cart.html" class="icon-btn cart-icon" title="Shopping Cart">
+                    <i class="fa-solid fa-cart-shopping"></i><span class="cart-count"></span>
+                </a>
+                <div class="auth-buttons"></div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1 style="margin: 30px 0; font-family: 'Outfit', sans-serif; color: var(--dp-green);">
+            <i class="fa-solid fa-credit-card" style="margin-right: 10px; opacity: 0.7;"></i>Checkout
+        </h1>
+
+        <div class="checkout-container">
+            <!-- Left: Shipping Form -->
+            <div class="checkout-form">
+                <h2><i class="fa-solid fa-truck" style="margin-right: 10px; opacity: 0.6;"></i>Shipping Information</h2>
+                <form onsubmit="handleCheckout(event)" id="checkoutForm">
+                    <div class="form-group">
+                        <label for="full_name"><i class="fa-solid fa-user" style="margin-right: 6px; opacity: 0.5;"></i>Full Name</label>
+                        <input type="text" id="full_name" name="full_name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone"><i class="fa-solid fa-phone" style="margin-right: 6px; opacity: 0.5;"></i>Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address"><i class="fa-solid fa-location-dot" style="margin-right: 6px; opacity: 0.5;"></i>Address</label>
+                        <textarea id="address" name="address" required></textarea>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-group">
+                            <label for="city"><i class="fa-solid fa-city" style="margin-right: 6px; opacity: 0.5;"></i>City</label>
+                            <input type="text" id="city" name="city" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="postal_code"><i class="fa-solid fa-envelope" style="margin-right: 6px; opacity: 0.5;"></i>Postal Code</label>
+                            <input type="text" id="postal_code" name="postal_code" required>
+                        </div>
+                    </div>
+
+                    <h2 style="margin-top: 30px;"><i class="fa-solid fa-wallet" style="margin-right: 10px; opacity: 0.6;"></i>Payment Method</h2>
+
+                    <div class="payment-option">
+                        <input type="radio" name="payment_method" value="cod" id="pay-cod" checked>
+                        <label for="pay-cod"><i class="fa-solid fa-money-bill-wave" style="margin-right: 8px; color: var(--success-color);"></i>Cash on Delivery</label>
+                    </div>
+
+                    <div class="payment-option">
+                        <input type="radio" name="payment_method" value="khalti" id="pay-khalti">
+                        <label for="pay-khalti"><i class="fa-solid fa-credit-card" style="margin-right: 8px; color: #5C2D91;"></i>Online Payment (Khalti)</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px; font-size: 16px; margin-top: 24px;">
+                        <i class="fa-solid fa-check"></i> Place Order
+                    </button>
+                </form>
+            </div>
+
+            <!-- Right: Order Summary -->
+            <div class="order-summary">
+                <h2><i class="fa-solid fa-receipt" style="margin-right: 10px; opacity: 0.6;"></i>Order Summary</h2>
+                <div id="orderSummary">
+                    <div style="text-align: center; padding: 20px;">
+                        <div class="spinner"></div>
+                        Loading cart...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 DroolsPet. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        // Check if logged in
+        if (!UIHelper.isLoggedIn()) {
+            window.location.href = 'login.html';
+        }
+
+        const user = APIService.getCurrentUser();
+
+        // Pre-fill user information
+        if (user) {
+            document.getElementById('full_name').value = user.full_name || '';
+            document.getElementById('phone').value = user.phone || '';
+            document.getElementById('address').value = user.address || '';
+            document.getElementById('city').value = user.city || '';
+            document.getElementById('postal_code').value = user.postal_code || '';
+        }
+
+        async function loadOrderSummary() {
+            const response = await APIService.getCart();
+
+            if (response.status === 200) {
+                const cart = response.data.cart;
+                const summary = document.getElementById('orderSummary');
+
+                if (cart.length === 0) {
+                    summary.innerHTML = '<p style="text-align:center;padding:20px;color:var(--text-muted);">Your cart is empty. <a href="cart.html" style="color:var(--dp-green);font-weight:600;">Go back to cart</a></p>';
+                    return;
+                }
+
+                let html = '<div>';
+                let total = 0;
+
+                cart.forEach(item => {
+                    const subtotal = item.price * item.quantity;
+                    total += subtotal;
+                    html += `
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(30,78,66,0.06);">
+                            <span style="font-size: 14px;">${item.name} <span style="color: var(--text-muted);">x ${item.quantity}</span></span>
+                            <span style="font-weight: 600;">Rs. ${subtotal}</span>
+                        </div>
+                    `;
+                });
+
+                html += `
+                    <div style="display: flex; justify-content: space-between; font-weight: 700; margin-top: 16px; font-size: 18px; color: var(--dp-green);">
+                        <span>Total:</span>
+                        <span>Rs. ${total}</span>
+                    </div>
+                </div>
+                `;
+
+                summary.innerHTML = html;
+                summary.dataset.total = total;
+            }
+        }
+
+        async function handleCheckout(event) {
+            event.preventDefault();
+
+            const full_name = document.getElementById('full_name').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            const city = document.getElementById('city').value;
+            const postal_code = document.getElementById('postal_code').value;
+            const payment_method = document.querySelector('input[name="payment_method"]:checked').value;
+
+            const shipping_address = `${full_name}, ${phone}, ${address}, ${city} ${postal_code}`;
+
+            // Update user profile
+            await APIService.updateProfile({
+                full_name, phone, address, city, postal_code
+            });
+
+            // Create order
+            const response = await APIService.createOrder({
+                payment_method,
+                shipping_address
+            });
+
+            if (response.status === 201) {
+                const order_id = response.data.order_id;
+                const total_amount = response.data.total_amount;
+
+                if (payment_method === 'cod') {
+                    // Redirect to confirmation
+                    window.location.href = `order-confirmation.html?order_id=${order_id}&status=success`;
+                    return;
+                }
+
+                // Initiate Khalti payment
+                const paymentResponse = await APIService.initiatePayment(order_id, total_amount);
+                if (paymentResponse.status === 200 && paymentResponse.data && paymentResponse.data.redirect_url) {
+                    window.location.href = paymentResponse.data.redirect_url;
+                } else {
+                    const msg =
+                        paymentResponse?.data?.error ||
+                        paymentResponse?.data?.message ||
+                        paymentResponse?.data?.details ||
+                        'Payment initiation failed';
+                    console.error('Payment initiation failed:', paymentResponse);
+                    UIHelper.showError(msg);
+                }
+            } else {
+                UIHelper.showError(response.data.error || 'Order creation failed');
+            }
+        }
+
+        loadOrderSummary();
+    </script>
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - DroolsPet Premium Pet Supplies</title>
+    <title>Contact Us - DroolsPet Premium Pet Supplies</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .contact-hero {
+            background-color: var(--primary-green);
+            color: var(--white);
+            padding: 60px 0;
+            text-align: center;
+        }
+        .contact-hero h1 {
+            font-size: 42px;
+            font-family: 'Outfit', sans-serif;
+            margin-bottom: 15px;
+        }
+        .contact-hero p {
+            font-size: 18px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .contact-section {
+            padding: 80px 0;
+            background-color: var(--bg-beige);
+        }
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 1.2fr 1.8fr;
+            gap: 50px;
+        }
+        .contact-info-card {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(30,78,66,0.05);
+        }
+        .contact-info-card h2 {
+            color: var(--primary-green);
+            font-family: 'Outfit', sans-serif;
+            font-size: 28px;
+            margin-bottom: 25px;
+        }
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .info-icon {
+            font-size: 24px;
+            background-color: var(--bg-beige);
+            padding: 10px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+        }
+        .info-text h4 {
+            color: var(--primary-green);
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        .info-text p {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .contact-form-card {
+            background-color: var(--white);
+            padding: 45px;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(30,78,66,0.05);
+        }
+        .contact-form-card h2 {
+            color: var(--primary-green);
+            font-family: 'Outfit', sans-serif;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .contact-form-card p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .form-group-custom {
+            margin-bottom: 20px;
+        }
+        .form-group-custom label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 8px;
+        }
+        .form-group-custom input,
+        .form-group-custom textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid rgba(30,78,66,0.15);
+            border-radius: 12px;
+            outline: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background-color: var(--bg-beige);
+        }
+        .form-group-custom input:focus,
+        .form-group-custom textarea:focus {
+            border-color: var(--primary-green);
+            background-color: var(--white);
+            box-shadow: 0 0 0 4px rgba(30,78,66,0.08);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Drools<span>Pet</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="categories.html">Categories</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+            </ul>
+            <div class="nav-right">
+                <button class="icon-btn" onclick="window.location.href='shop.html'" title="Search Products"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <a href="cart.html" class="icon-btn cart-icon" title="Shopping Cart">
+                    <i class="fa-solid fa-cart-shopping"></i><span class="cart-count"></span>
+                </a>
+                <div class="auth-buttons">
+                    <!-- Loaded dynamically via app.js UIHelper.updateHeader() -->
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Banner -->
+    <section class="contact-hero">
+        <div class="container">
+            <h1>We'd Love to Hear From You</h1>
+            <p>Have questions about premium products or need help with an order? Drop us a message!</p>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-layout">
+                <!-- Left Details -->
+                <div class="contact-info-card">
+                    <h2>Reach Out Directly</h2>
+                    
+                    <div class="info-item">
+                        <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
+                        <div class="info-text">
+                            <h4>Visit Our Store</h4>
+                            <p>123 Pet Lane, Paw City<br>Postal Code: 44600</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
+                        <div class="info-text">
+                            <h4>Call Us</h4>
+                            <p>(555) 123-4567<br>Mon - Sat: 9 AM - 6 PM</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-icon"><i class="fa-solid fa-envelope"></i></div>
+                        <div class="info-text">
+                            <h4>Email Customer Support</h4>
+                            <p>hello@droolspet.com<br>responses within 24 hours</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Form -->
+                <div class="contact-form-card">
+                    <h2>Send Us a Message</h2>
+                    <p>Provide your details below and our team will follow up shortly.</p>
+                    
+                    <form onsubmit="event.preventDefault(); alert('Message successfully sent! Thank you for contacting DroolsPet.'); this.reset();">
+                        <div class="form-group-custom">
+                            <label for="contact-name">Full Name</label>
+                            <input type="text" id="contact-name" placeholder="John Doe" required>
+                        </div>
+                        
+                        <div class="form-group-custom">
+                            <label for="contact-email">Email Address</label>
+                            <input type="email" id="contact-email" placeholder="john@example.com" required>
+                        </div>
+                        
+                        <div class="form-group-custom">
+                            <label for="contact-message">Your Message</label>
+                            <textarea id="contact-message" rows="5" placeholder="How can we help you and your pet?" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px;">Send Inquiry</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer-brand">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">Drools<span>Pet</span></a>
+                    <p>Premium pet supplies delivered with love since 2020. Making every tail wag and cat purr.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fa-brands fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Shop</h4>
+                    <ul class="footer-links">
+                        <li><a href="shop.html?search=food">Pet Food</a></li>
+                        <li><a href="shop.html?search=toy">Toys</a></li>
+                        <li><a href="shop.html?search=shampoo">Grooming</a></li>
+                        <li><a href="shop.html?search=bed">Accessories</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Get In Touch</h4>
+                    <ul class="contact-info">
+                        <li><i class="fa-solid fa-location-dot"></i> 123 Pet Lane, Paw City</li>
+                        <li><i class="fa-solid fa-phone"></i> (555) 123-4567</li>
+                        <li><i class="fa-solid fa-envelope"></i> hello@droolspet.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 DroolsPet. All rights reserved. Built for happy tails.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>

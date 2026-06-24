@@ -1,0 +1,11 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /PetSupply_eCommerce/backend/api/
+    
+    # Don't rewrite for real files or directories
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    # Route everything to index.php
+    RewriteRule ^(.*)$ index.php [L,QSA]
+</IfModule>

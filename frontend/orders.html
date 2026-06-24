@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - PetSupply E-Commerce</title>
+    <title>My Orders - PetSupply E-Commerce</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Drools<span>Pet</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="orders.html">My Orders</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="cart.html" class="cart-icon"><i class="fa-solid fa-cart-shopping"></i><span class="cart-count"></span></a></li>
+            </ul>
+            <div class="auth-buttons"></div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1 style="margin: 30px 0;">My Orders</h1>
+        
+        <div class="orders-container" id="ordersList">
+            <div class="loading">
+                <div class="spinner"></div>
+                Loading orders...
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 PetSupply E-Commerce. All rights reserved.</p>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        // Check if logged in
+        if (!UIHelper.isLoggedIn()) {
+            window.location.href = 'login.html';
+        }
+
+        async function loadOrders() {
+            const response = await APIService.getOrders();
+            
+            if (response.status === 200) {
+                const orders = response.data.orders;
+                const ordersList = document.getElementById('ordersList');
+                
+                if (orders.length === 0) {
+                    ordersList.innerHTML = '<p style="text-align: center; padding: 40px;">You haven\'t placed any orders yet. <a href="index.html">Start shopping</a></p>';
+                } else {
+                    ordersList.innerHTML = '';
+                    
+                    orders.forEach(order => {
+                        const orderDiv = document.createElement('div');
+                        orderDiv.className = 'order-card';
+                        
+                        orderDiv.innerHTML = `
+                            <div class="order-header">
+                                <div>
+                                    <div class="order-number">Order #${order.order_number}</div>
+                                    <div class="order-date">${UIHelper.formatDate(order.created_at)}</div>
+                                </div>
+                                <span class="status-badge status-${order.status}">${order.status}</span>
+                            </div>
+                            
+                            <div class="order-items">
+                                <strong>Items:</strong>
+                                <p style="margin: 5px 0;">Total Items: ${order.total_items || 'N/A'}</p>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div class="order-total">Rs. ${order.total_amount}</div>
+                                <button class="btn btn-primary btn-small" onclick="viewOrderDetails(${order.id})">View Details</button>
+                            </div>
+                        `;
+                        
+                        ordersList.appendChild(orderDiv);
+                    });
+                }
+            }
+        }
+
+        function viewOrderDetails(orderId) {
+            // For now, just show an alert. In a real app, you'd have a detail page
+            alert(`Order ID: ${orderId}`);
+        }
+
+        loadOrders();
+    </script>
+</body>
+</html>

@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - DroolsPet Premium Pet Supplies</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Drools<span>Pet</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html" class="active">Shop</a></li>
+                <li><a href="categories.html">Categories</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-right">
+                <button class="icon-btn" onclick="document.getElementById('searchInput').focus();" title="Search Catalog"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <a href="cart.html" class="icon-btn cart-icon" title="Shopping Cart">
+                    <i class="fa-solid fa-cart-shopping"></i><span class="cart-count"></span>
+                </a>
+                <div class="auth-buttons">
+                    <!-- Loaded dynamically via app.js UIHelper.updateHeader() -->
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Breadcrumbs & Header Banner -->
+    <section class="shop-header-banner">
+        <div class="container">
+            <div class="breadcrumbs">
+                <a href="index.html">Home</a> / <span>Shop</span>
+            </div>
+            <h1>Everything for your best friend</h1>
+            <p>Premium nourishment and toys curated with love for pets of all shapes and sizes. Free shipping on orders over $50.</p>
+        </div>
+    </section>
+
+    <!-- Shop Main Content Area -->
+    <section id="products" class="shop-layout-wrapper" style="background-color: var(--bg-beige);">
+        <div class="container">
+            <div class="shop-layout">
+                <!-- Sidebar Filters -->
+                <aside class="filters-sidebar">
+                    <!-- Category Filters -->
+                    <div class="filter-section">
+                        <h3>Categories</h3>
+                        <ul class="category-filter-list">
+                            <li class="category-filter-item active" onclick="filterByPetType('all', this)">
+                                <span><i class="fa-solid fa-paw"></i> All Pets</span>
+                                <span class="category-count-badge" id="count-all">24</span>
+                            </li>
+                            <li class="category-filter-item" onclick="filterByPetType('dog', this)">
+                                <span><i class="fa-solid fa-dog"></i> Dog</span>
+                                <span class="category-count-badge" id="count-dog">10</span>
+                            </li>
+                            <li class="category-filter-item" onclick="filterByPetType('cat', this)">
+                                <span><i class="fa-solid fa-cat"></i> Cat</span>
+                                <span class="category-count-badge" id="count-cat">8</span>
+                            </li>
+                            <li class="category-filter-item" onclick="filterByPetType('bird', this)">
+                                <span><i class="fa-solid fa-dove"></i> Bird</span>
+                                <span class="category-count-badge" id="count-bird">2</span>
+                            </li>
+                            <li class="category-filter-item" onclick="filterByPetType('fish', this)">
+                                <span><i class="fa-solid fa-fish"></i> Fish</span>
+                                <span class="category-count-badge" id="count-fish">2</span>
+                            </li>
+                            <li class="category-filter-item" onclick="filterByPetType('small_pets', this)">
+                                <span><i class="fa-solid fa-hippo"></i> Small Pets</span>
+                                <span class="category-count-badge" id="count-small_pets">2</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Price Range Slider -->
+                    <div class="filter-section">
+                        <h3>Price Range</h3>
+                        <div class="price-slider-container">
+                            <input type="range" id="priceSlider" class="price-slider" min="0" max="150" value="150" step="5">
+                            <div class="price-slider-values">
+                                <span>Rs. 0</span>
+                                <span id="priceSliderValue" style="color: var(--primary-green); font-weight: 700;">Rs. 150+</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Member Special Promo Banner -->
+                    <div class="member-special-card">
+                        <h4>Member Special</h4>
+                        <p>20% Off Treats</p>
+                        <button class="btn" onclick="applyTreatsFilter()">Shop Sale</button>
+                    </div>
+                </aside>
+
+                <!-- Product Catalog List -->
+                <main class="catalog-content">
+                    <!-- Search Input inside Shop Layout -->
+                    <div class="search-bar-container" style="max-width: 100%; margin-bottom: 25px;">
+                        <input type="text" id="searchInput" class="search-input" placeholder="Search catalog for pet items...">
+                    </div>
+
+                    <!-- Toolbar -->
+                    <div class="shop-toolbar">
+                        <div class="products-count" id="productsCountText">
+                            Showing <strong>0</strong> products
+                        </div>
+                        <div class="toolbar-controls">
+                            <div class="sort-select-wrapper">
+                                <select id="sortSelect" class="sort-select">
+                                    <option value="newest">Newest</option>
+                                    <option value="price-asc">Price: Low to High</option>
+                                    <option value="price-desc">Price: High to Low</option>
+                                    <option value="rating-desc">Top Rated</option>
+                                </select>
+                            </div>
+                            <div class="layout-switchers">
+                                <button class="layout-btn active" onclick="setLayout('grid', this)"><i class="fa-solid fa-grid-2"></i></button>
+                                <button class="layout-btn" onclick="setLayout('list', this)"><i class="fa-solid fa-list"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Products Grid -->
+                    <div class="products-grid" id="productsList" style="grid-template-columns: repeat(3, 1fr); gap: 25px;">
+                        <!-- Injected dynamically -->
+                    </div>
+
+                    <!-- Loading Spinner -->
+                    <div id="loading" class="loading" style="display: none;">
+                        <div class="spinner"></div>
+                        Loading catalog products...
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination-container" id="paginationContainer">
+                        <!-- Injected dynamically -->
+                    </div>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer-brand">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">Drools<span>Pet</span></a>
+                    <p>Your one-stop boutique for premium pet care, nourishment, and play essentials. Dedicated to happy tails and purring hearts.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fa-brands fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="shop.html">Shop All</a></li>
+                        <li><a href="index.html#testimonials">Our Story</a></li>
+                        <li><a href="index.html#testimonials">Success Stories</a></li>
+                        <li><a href="#footer-brand">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Newsletter</h4>
+                    <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 15px;">Join our pack for exclusive deals and pet care tips.</p>
+                    <form onsubmit="event.preventDefault(); alert('Thank you for subscribing!'); this.reset();" style="display: flex; flex-direction: column; gap: 10px;">
+                        <input type="email" placeholder="Email address" required style="padding: 12px 18px; border: 1px solid rgba(30,78,66,0.1); border-radius: 10px; font-size: 14px;">
+                        <button type="submit" class="btn btn-primary btn-small" style="padding: 12px; width: 100%;">Subscribe Now</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <p>&copy; 2024 DroolsPet. All rights reserved. Built for happy tails.</p>
+                <div style="display: flex; gap: 20px; font-size: 13px; color: var(--text-muted);">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Product Detail Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Product Details</h3>
+                <span class="close-btn" onclick="closeProductModal()">&times;</span>
+            </div>
+            <div id="productDetail" style="padding: 30px;"></div>
+        </div>
+    </div>
+
+    <!-- Script Imports and Core Logic -->
+    <script src="app.js"></script>
+    <script>
+        let allProducts = [];
+        let filteredProducts = [];
+        let activePetType = 'all';
+        let currentLayout = 'grid';
+        let currentPage = 1;
+        const itemsPerPage = 6; // Set page size to 6 to show pagination controls clearly
+
+        // Map database products to design mockup equivalents with pricing & images
+        function mapProductToShopMockup(product) {
+            const p = { ...product };
+            const nameLower = p.name.toLowerCase();
+            
+            // Default properties
+            p.rating = (4.4 + (p.id % 7) / 10).toFixed(1);
+            p.review_count = 10 + (p.id * 17) % 120;
+            p.badge = null;
+            p.original_price = null;
+            p.pet_type = "small_pets"; // Hamster/rabbit fallback
+            
+            if (p.sku === 'DOG-KIBBLE-5KG' || nameLower.includes('kibble')) {
+                p.name = "Organic Salmon & Pea Kibble";
+                p.price = 34.99;
+                p.image_url = "https://images.unsplash.com/photo-1568640347023-a61c9c8030e9?w=500&auto=format&fit=crop&q=80";
+                p.rating = "4.9";
+                p.category_name = "DOG FOOD";
+                p.badge = "BEST SELLER";
+                p.pet_type = "dog";
+            } else if (p.sku === 'BED-MED-GREY' || p.sku === 'BED-ORTHO-MED' || nameLower.includes('bed')) {
+                p.name = "Velvet Dream Cloud Bed";
+                p.price = 59.00;
+                p.image_url = "https://images.unsplash.com/photo-1541599540903-216a46ca1ad0?w=500&auto=format&fit=crop&q=80";
+                p.rating = "4.8";
+                p.category_name = "CAT ACCESSORIES";
+                p.pet_type = "cat";
+            } else if (p.sku === 'TENNIS-BALL-3PC' || nameLower.includes('tennis') || nameLower.includes('duck')) {
+                p.name = "Tough-Chew Tropical Set";
+                p.price = 18.50;
+                p.image_url = "https://images.unsplash.com/photo-1576201836106-db1758fd1c97?w=500&auto=format&fit=crop&q=80";
+                p.rating = "5.0";
+                p.category_name = "DOG TOYS";
+                p.badge = "NEW ARRIVAL";
+                p.pet_type = "dog";
+            } else if (p.sku === 'BOWL-SET-2PC' || p.sku === 'BOWL-STEEL-2PC' || nameLower.includes('bowl')) {
+                p.name = "Modern Vista Bird Feeder";
+                p.price = 42.00;
+                p.image_url = "https://images.unsplash.com/photo-1590424753092-7a71b2656366?w=500&auto=format&fit=crop&q=80";
+                p.rating = "4.7";
+                p.category_name = "BIRD CARE";
+                p.pet_type = "bird";
+            } else if (p.sku === 'LEASH-1.5M' || p.sku === 'LEASH-5FT-BLK' || nameLower.includes('leash')) {
+                p.name = "Ultra-Silent Crystal Filter";
+                p.price = 28.90;
+                p.original_price = 34.00;
+                p.image_url = "https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?w=500&auto=format&fit=crop&q=80";
+                p.rating = "4.6";
+                p.category_name = "FISH TECH";
+                p.badge = "15% OFF";
+                p.pet_type = "fish";
+            } else if (p.sku === 'PUPPY-ORGANIC' || nameLower.includes('puppy')) {
+                p.name = "Premium Grain-Free Mix";
+                p.price = 45.99;
+                p.image_url = "https://images.unsplash.com/photo-1589726480295-cf88b7d93d1b?w=500&auto=format&fit=crop&q=80";
+                p.rating = "4.8";
+                p.category_name = "DOG FOOD";
+                p.pet_type = "dog";
+            } else if (p.sku === 'SHAMPOO-500ML' || nameLower.includes('shampoo')) {
+                p.name = "Lavender Pet Shampoo";
+                p.price = 18.50;
+                p.image_url = "https://images.unsplash.com/photo-1599305589939-e654d0c6b13b?w=500&auto=format&fit=crop&q=80";
+                p.rating = "4.7";
+                p.category_name = "TREATS";
+                p.pet_type = "dog";
+            } else if (p.sku === 'CATNIP-MOUSE-5PC' || nameLower.includes('catnip')) {
+                p.name = "Peanut Butter Artisan Hearts";
+                p.price = 12.99;
+                p.image_url = "https://images.unsplash.com/photo-1594647869516-5a01a9014e0e?w=500&auto=format&fit=crop&q=80";
+                p.rating = "5.0";
+                p.category_name = "TREATS";
+                p.pet_type = "cat";
+            } else {
+                // Categorize remaining live products nicely under the pet filters
+                if (p.category_id === 1 || p.category_id === 3) {
+                    p.pet_type = "dog";
+                    p.category_name = p.category_id === 1 ? "DOG FOOD" : "DOG TOYS";
+                } else if (p.category_id === 2 || p.category_id === 4) {
+                    p.pet_type = "cat";
+                    p.category_name = p.category_id === 2 ? "CAT FOOD" : "CAT TOYS";
+                } else if (p.category_id === 5) {
+                    p.pet_type = "dog"; // Group grooming under dog
+                    p.category_name = "GROOMING";
+                } else {
+                    p.pet_type = "small_pets";
+                    p.category_name = "PET ACCESSORIES";
+                }
+
+                // Placeholders Unsplash fallbacks
+                if (p.image_url.includes('placeholder') || p.image_url.includes('via.placeholder')) {
+                    if (p.pet_type === "dog") {
+                        p.image_url = "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=500&auto=format&fit=crop&q=80";
+                    } else if (p.pet_type === "cat") {
+                        p.image_url = "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=500&auto=format&fit=crop&q=80";
+                    } else {
+                        p.image_url = "https://images.unsplash.com/photo-1544568100-847a948585b9?w=500&auto=format&fit=crop&q=80";
+                    }
+                }
+            }
+            return p;
+        }
+
+        // Fetch live catalog items
+        async function loadCatalog() {
+            document.getElementById('loading').style.display = 'block';
+            // Limit 100 to pull all products and manage client-side features
+            const response = await APIService.getProducts(1, 100);
+            document.getElementById('loading').style.display = 'none';
+            
+            if (response.status === 200) {
+                allProducts = response.data.products;
+                updateFilterCounters();
+                applyFilters();
+            } else {
+                const productsList = document.getElementById('productsList');
+                productsList.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: red; padding: 20px;">Failed to load catalog products.</p>`;
+            }
+        }
+
+        // Update counts in categories sidebar dynamically based on backend records
+        function updateFilterCounters() {
+            const counts = { all: allProducts.length, dog: 0, cat: 0, bird: 0, fish: 0, small_pets: 0 };
+            
+            allProducts.forEach(product => {
+                const p = mapProductToShopMockup(product);
+                if (counts[p.pet_type] !== undefined) {
+                    counts[p.pet_type]++;
+                }
+            });
+
+            document.getElementById('count-all').textContent = counts.all;
+            document.getElementById('count-dog').textContent = counts.dog;
+            document.getElementById('count-cat').textContent = counts.cat;
+            document.getElementById('count-bird').textContent = counts.bird;
+            document.getElementById('count-fish').textContent = counts.fish;
+            document.getElementById('count-small_pets').textContent = counts.small_pets;
+        }
+
+        // Apply filters, slider value, sorting, and pagination
+        function applyFilters() {
+            filteredProducts = [...allProducts];
+
+            // 1. Sidebar pet type categories
+            if (activePetType !== 'all') {
+                filteredProducts = filteredProducts.filter(product => {
+                    const p = mapProductToShopMockup(product);
+                    return p.pet_type === activePetType;
+                });
+            }
+
+            // 2. Price slider threshold
+            const maxPrice = parseFloat(document.getElementById('priceSlider').value);
+            filteredProducts = filteredProducts.filter(product => {
+                const p = mapProductToShopMockup(product);
+                return p.price <= maxPrice;
+            });
+
+            // 3. Search keywords
+            const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+            if (searchTerm) {
+                filteredProducts = filteredProducts.filter(product => {
+                    const p = mapProductToShopMockup(product);
+                    return p.name.toLowerCase().includes(searchTerm) || 
+                           p.category_name.toLowerCase().includes(searchTerm) ||
+                           p.description.toLowerCase().includes(searchTerm);
+                });
+            }
+
+            // 4. Dropdown sorting
+            const sortBy = document.getElementById('sortSelect').value;
+            filteredProducts.sort((a, b) => {
+                const ma = mapProductToShopMockup(a);
+                const mb = mapProductToShopMockup(b);
+                
+                if (sortBy === 'price-asc') {
+                    return ma.price - mb.price;
+                } else if (sortBy === 'price-desc') {
+                    return mb.price - ma.price;
+                } else if (sortBy === 'rating-desc') {
+                    return parseFloat(mb.rating) - parseFloat(ma.rating);
+                } else {
+                    // 'newest' / ID DESC
+                    return b.id - a.id;
+                }
+            });
+
+            currentPage = 1; // Reset to page 1 on filter
+            renderCatalogGrid();
+        }
+
+        // Render current page items
+        function renderCatalogGrid() {
+            const productsList = document.getElementById('productsList');
+            const countText = document.getElementById('productsCountText');
+            productsList.innerHTML = '';
+
+            const total = filteredProducts.length;
+            if (total === 0) {
+                countText.innerHTML = 'Showing <strong>0</strong> products';
+                productsList.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted); font-size: 16px;">No catalog products match your selection.</p>';
+                document.getElementById('paginationContainer').innerHTML = '';
+                return;
+            }
+
+            // Calculations
+            const totalPages = Math.ceil(total / itemsPerPage);
+            const startIdx = (currentPage - 1) * itemsPerPage;
+            const endIdx = Math.min(startIdx + itemsPerPage, total);
+            
+            countText.innerHTML = `Showing <strong>${startIdx + 1}-${endIdx}</strong> of <strong>${total}</strong> products`;
+
+            const pageItems = filteredProducts.slice(startIdx, endIdx);
+
+            // Ingest grid layouts
+            if (currentLayout === 'list') {
+                productsList.style.gridTemplateColumns = '1fr';
+            } else {
+                productsList.style.gridTemplateColumns = 'repeat(3, 1fr)';
+            }
+
+            pageItems.forEach(product => {
+                const p = mapProductToShopMockup(product);
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                
+                const isOutOfStock = p.quantity_in_stock === 0;
+                
+                // Read wishlist from localStorage to set correct color
+                const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+                const isInWishlist = wishlist.includes(p.id);
+
+                let badgeHtml = '';
+                if (p.badge) {
+                    const badgeClass = p.badge.toLowerCase().replace(' ', '-').replace('%', '');
+                    badgeHtml = `<span class="product-badge ${badgeClass}">${p.badge}</span>`;
+                }
+
+                let priceHtml = UIHelper.formatCurrency(p.price);
+                if (p.original_price) {
+                    priceHtml = `${UIHelper.formatCurrency(p.price)} <span style="text-decoration: line-through; color: var(--text-muted); font-size: 13px; margin-left: 6px;">${UIHelper.formatCurrency(p.original_price)}</span>`;
+                }
+
+                if (currentLayout === 'list') {
+                    // List Layout Mode
+                    card.style.display = 'flex';
+                    card.style.flexDirection = 'row';
+                    card.innerHTML = `
+                        ${badgeHtml}
+                        <div class="product-image-container" onclick="viewProduct(${p.id})" style="width: 240px; aspect-ratio: 1; flex-shrink: 0; cursor: pointer; padding: 20px;">
+                            <img src="${p.image_url}" alt="${p.name}" class="product-image" style="width:100%; height:100%; object-fit:contain;">
+                        </div>
+                        <div class="product-info" style="display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; padding: 25px;">
+                            <div>
+                                <div class="product-meta">
+                                    <span class="product-category">${p.category_name}</span>
+                                    <span class="product-rating"><i class="fa-solid fa-star"></i> ${p.rating}</span>
+                                </div>
+                                <h3 class="product-name" onclick="viewProduct(${p.id})" style="cursor: pointer; font-size: 20px; height: auto; -webkit-line-clamp: 1;">${p.name}</h3>
+                                <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 15px;">Premium pet supplies formulated specifically to meet your pet's needs. Made with top-quality ingredients.</p>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <div class="product-stock" style="${isOutOfStock ? 'color: var(--danger-color);' : ''}">
+                                        ${isOutOfStock ? 'Out of Stock' : 'Stock: ' + p.quantity_in_stock}
+                                    </div>
+                                    <div class="product-price" style="margin-top: 5px;">${priceHtml}</div>
+                                </div>
+                                <button class="add-cart-floating" onclick="addToCart(${p.id})" ${isOutOfStock ? 'disabled' : ''}>
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // Grid Layout Mode
+                    card.innerHTML = `
+                        ${badgeHtml}
+                        <div class="product-image-container" onclick="window.location.href='product.html?id=${p.id}'" style="cursor: pointer;">
+                            <img src="${p.image_url}" alt="${p.name}" class="product-image">
+                        </div>
+                        <div class="product-info">
+                            <div>
+                                <div class="product-meta">
+                                    <span class="product-category">${p.category_name}</span>
+                                    <span class="product-rating"><i class="fa-solid fa-star"></i> ${p.rating}</span>
+                                </div>
+                                <h3 class="product-name" onclick="window.location.href='product.html?id=${p.id}'" style="cursor: pointer;">${p.name}</h3>
+                            </div>
+                            <div class="product-footer" style="margin-top: 15px;">
+                                <span class="product-price">${priceHtml}</span>
+                                <button class="add-cart-floating" onclick="addToCart(${p.id})" ${isOutOfStock ? 'disabled' : ''}>
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
+                productsList.appendChild(card);
+            });
+
+            renderPagination(totalPages);
+        }
+
+        // Draw pagination links
+        function renderPagination(totalPages) {
+            const container = document.getElementById('paginationContainer');
+            container.innerHTML = '';
+            
+            if (totalPages <= 1) return;
+
+            // Previous Button
+            const prevBtn = document.createElement('button');
+            prevBtn.className = `pagination-btn ${currentPage === 1 ? 'disabled' : ''}`;
+            prevBtn.innerHTML = '<i class="fa-solid fa-chevron-left" style="font-size: 10px;"></i>';
+            prevBtn.onclick = () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderCatalogGrid();
+                    document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+                }
+            };
+            container.appendChild(prevBtn);
+
+            // Page Numbers
+            for (let i = 1; i <= totalPages; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.className = `pagination-btn ${currentPage === i ? 'active' : ''}`;
+                pageBtn.textContent = i;
+                pageBtn.onclick = () => {
+                    currentPage = i;
+                    renderCatalogGrid();
+                    document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+                };
+                container.appendChild(pageBtn);
+            }
+
+            // Next Button
+            const nextBtn = document.createElement('button');
+            nextBtn.className = `pagination-btn ${currentPage === totalPages ? 'disabled' : ''}`;
+            nextBtn.innerHTML = '<i class="fa-solid fa-chevron-right" style="font-size: 10px;"></i>';
+            nextBtn.onclick = () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderCatalogGrid();
+                    document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+                }
+            };
+            container.appendChild(nextBtn);
+        }
+
+        // Filter by sidebar category links
+        function filterByPetType(type, element) {
+            document.querySelectorAll('.category-filter-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            if (element) {
+                element.classList.add('active');
+            }
+            activePetType = type;
+            applyFilters();
+        }
+
+        // Slider value update triggers
+        document.getElementById('priceSlider').addEventListener('input', (e) => {
+            const val = e.target.value;
+            document.getElementById('priceSliderValue').textContent = val == 150 ? 'Rs. 150+' : UIHelper.formatCurrency(val);
+            applyFilters();
+        });
+
+        // Dropdown sort triggers
+        document.getElementById('sortSelect').addEventListener('change', () => {
+            applyFilters();
+        });
+
+        // Search trigger binding
+        document.getElementById('searchInput').addEventListener('input', () => {
+            applyFilters();
+        });
+
+        // Layout switcher buttons
+        function setLayout(layout, element) {
+            document.querySelectorAll('.layout-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            if (element) {
+                element.classList.add('active');
+            }
+            currentLayout = layout;
+            renderCatalogGrid();
+        }
+
+        // Apply treats sale promo filter
+        function applyTreatsFilter() {
+            document.querySelectorAll('.category-filter-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            activePetType = 'all';
+            document.getElementById('searchInput').value = 'treats';
+            applyFilters();
+            document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Local wishlist toggle
+        function toggleWishlist(productId, element) {
+            event.stopPropagation();
+            let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+            const index = wishlist.indexOf(productId);
+            
+            if (index > -1) {
+                wishlist.splice(index, 1);
+                element.style.color = 'var(--text-muted)';
+                UIHelper.showAlert('Removed from wishlist', 'info');
+            } else {
+                wishlist.push(productId);
+                element.style.color = 'var(--danger-color)';
+                UIHelper.showAlert('Added to wishlist!');
+            }
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        }
+
+        // Navigate to full product detail page
+        function viewProduct(productId) {
+            window.location.href = `product.html?id=${productId}`;
+        }
+
+        // Add to cart trigger
+        async function addToCart(productId) {
+            if (!UIHelper.isLoggedIn()) {
+                UIHelper.showAlert('Please login to add items to cart', 'warning');
+                UIHelper.redirectToLogin();
+                return;
+            }
+            
+            const response = await APIService.addToCart(productId, 1);
+            if (response.status === 200) {
+                UIHelper.showAlert('Product added to cart!');
+                UIHelper.updateCartCount();
+            } else {
+                UIHelper.showError(response.data.error || 'Failed to add to cart');
+            }
+        }
+
+        // Handle add to cart from inside details modal
+        async function handleAddToCart(event, productId) {
+            event.preventDefault();
+            
+            if (!UIHelper.isLoggedIn()) {
+                UIHelper.showAlert('Please login to add items to cart', 'warning');
+                UIHelper.redirectToLogin();
+                return;
+            }
+            
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const response = await APIService.addToCart(productId, quantity);
+            
+            if (response.status === 200) {
+                UIHelper.showAlert('Product added to cart!');
+                closeProductModal();
+                UIHelper.updateCartCount();
+            } else {
+                UIHelper.showError(response.data.error || 'Failed to add to cart');
+            }
+        }
+
+        // Close modal when clicking outside content area
+        document.getElementById('productModal').addEventListener('click', (e) => {
+            if (e.target.id === 'productModal') {
+                closeProductModal();
+            }
+        });
+
+        // Initialize live loading — read URL ?search= param for cross-page deep-linking
+        window.addEventListener('load', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const preSearch = urlParams.get('search');
+            if (preSearch) {
+                document.getElementById('searchInput').value = preSearch;
+            }
+            loadCatalog();
+        });
+    </script>
+</body>
+</html>

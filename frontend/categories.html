@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories - DroolsPet Premium Pet Supplies</title>
+    <title>Categories - DroolsPet Premium Pet Supplies</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .categories-page-banner {
+            background-color: var(--primary-green);
+            color: var(--white);
+            padding: 60px 0;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .categories-page-banner h1 {
+            font-size: 42px;
+            font-family: 'Outfit', sans-serif;
+            margin-bottom: 15px;
+        }
+        .categories-page-banner p {
+            font-size: 18px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .categories-section {
+            padding: 40px 0 80px;
+            background-color: var(--bg-beige);
+        }
+        .categories-grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+        .category-detailed-card {
+            background-color: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            border: 1px solid rgba(30,78,66,0.05);
+        }
+        .category-detailed-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--card-shadow-hover);
+        }
+        .category-img-wrapper {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+            background-color: var(--bg-beige);
+        }
+        .category-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .category-detailed-card:hover .category-img-wrapper img {
+            transform: scale(1.08);
+        }
+        .category-content-wrapper {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .category-card-title {
+            font-family: 'Outfit', sans-serif;
+            color: var(--primary-green);
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .category-card-desc {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        .category-card-btn {
+            align-self: flex-start;
+            font-weight: 600;
+            color: var(--primary-green);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+            transition: gap 0.2s ease;
+        }
+        .category-detailed-card:hover .category-card-btn {
+            gap: 12px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Drools<span>Pet</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="categories.html" class="active">Categories</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-right">
+                <button class="icon-btn" onclick="window.location.href='shop.html'" title="Search Products"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <a href="cart.html" class="icon-btn cart-icon" title="Shopping Cart">
+                    <i class="fa-solid fa-cart-shopping"></i><span class="cart-count"></span>
+                </a>
+                <div class="auth-buttons">
+                    <!-- Loaded dynamically via app.js UIHelper.updateHeader() -->
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Banner -->
+    <section class="categories-page-banner">
+        <div class="container">
+            <h1>Browse Pet Categories</h1>
+            <p>Find premium items tailored specifically for your companions' comfort, health, and happiness.</p>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories-section">
+        <div class="container">
+            <div id="loading" class="loading" style="text-align: center; padding: 40px 0;">
+                <div class="spinner"></div>
+                <p>Loading pet categories...</p>
+            </div>
+            
+            <div class="categories-grid-container" id="categoriesGrid" style="display: none;">
+                <!-- Dynamically loaded category cards -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer-brand">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">Drools<span>Pet</span></a>
+                    <p>Premium pet supplies delivered with love since 2020. Making every tail wag and cat purr.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fa-brands fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Shop</h4>
+                    <ul class="footer-links">
+                        <li><a href="shop.html?search=food">Pet Food</a></li>
+                        <li><a href="shop.html?search=toy">Toys</a></li>
+                        <li><a href="shop.html?search=shampoo">Grooming</a></li>
+                        <li><a href="shop.html?search=bed">Accessories</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Get In Touch</h4>
+                    <ul class="contact-info">
+                        <li><i class="fa-solid fa-location-dot"></i> 123 Pet Lane, Paw City</li>
+                        <li><i class="fa-solid fa-phone"></i> (555) 123-4567</li>
+                        <li><i class="fa-solid fa-envelope"></i> hello@droolspet.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 DroolsPet. All rights reserved. Built for happy tails.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+    <script>
+        // Mapping category names to premium Unsplash photos
+        const categoryImages = {
+            "dog food": "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=400&auto=format&fit=crop&q=80",
+            "cat food": "https://images.unsplash.com/photo-1589726480295-cf88b7d93d1b?w=400&auto=format&fit=crop&q=80",
+            "dog toys": "https://images.unsplash.com/photo-1576201836106-db1758fd1c97?w=400&auto=format&fit=crop&q=80",
+            "cat toys": "https://images.unsplash.com/photo-1545249390-6bdfa286032f?w=400&auto=format&fit=crop&q=80",
+            "grooming": "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?w=400&auto=format&fit=crop&q=80",
+            "accessories": "https://images.unsplash.com/photo-1541599540903-216a46ca1ad0?w=400&auto=format&fit=crop&q=80"
+        };
+
+        async function loadCategories() {
+            try {
+                const response = await APIService.getCategories();
+                document.getElementById('loading').style.display = 'none';
+                
+                const grid = document.getElementById('categoriesGrid');
+                grid.style.display = 'grid';
+                grid.innerHTML = '';
+                
+                if (response.status === 200 && response.data.categories) {
+                    const categories = response.data.categories.filter(c => c.is_active);
+                    
+                    categories.forEach(category => {
+                        const nameLower = category.name.toLowerCase();
+                        let imgUrl = category.image_url || category.image;
+                        
+                        // Fallback to high quality unsplash images matching our mockup styling
+                        if (!imgUrl || imgUrl.includes('placeholder') || imgUrl.includes('via.placeholder')) {
+                            imgUrl = categoryImages[nameLower] || "https://images.unsplash.com/photo-1623387641168-d9803ded361f?w=400&auto=format&fit=crop&q=80";
+                        }
+                        
+                        // Map redirect keyword (e.g. "dog food" -> "food", "cat toys" -> "toy")
+                        let searchKeyword = nameLower;
+                        if (nameLower.includes('food')) searchKeyword = 'food';
+                        else if (nameLower.includes('toy')) searchKeyword = 'toy';
+                        else if (nameLower.includes('grooming')) searchKeyword = 'shampoo';
+                        else if (nameLower.includes('accessories')) searchKeyword = 'bed';
+                        
+                        const card = document.createElement('div');
+                        card.className = 'category-detailed-card';
+                        card.onclick = () => {
+                            window.location.href = `shop.html?search=${searchKeyword}`;
+                        };
+                        
+                        card.innerHTML = `
+                            <div class="category-img-wrapper">
+                                <img src="${imgUrl}" alt="${category.name}">
+                            </div>
+                            <div class="category-content-wrapper">
+                                <div>
+                                    <h3 class="category-card-title">${category.name}</h3>
+                                    <p class="category-card-desc">${category.description || 'Premium pet gear selection curated for top quality and performance.'}</p>
+                                </div>
+                                <span class="category-card-btn">Explore Collection &rarr;</span>
+                            </div>
+                        `;
+                        grid.appendChild(card);
+                    });
+                } else {
+                    grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No categories available.</p>';
+                }
+            } catch (error) {
+                console.error(error);
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('categoriesGrid').innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: red;">Error loading categories.</p>';
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadCategories();
+        });
+    </script>
+</body>
+</html>

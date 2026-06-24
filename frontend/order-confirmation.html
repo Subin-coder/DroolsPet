@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - PetSupply E-Commerce</title>
+    <title>Order Confirmation - PetSupply E-Commerce</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Drools<span>Pet</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="cart.html" class="cart-icon"><i class="fa-solid fa-cart-shopping"></i><span class="cart-count"></span></a></li>
+            </ul>
+            <div class="auth-buttons"></div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div id="confirmationMessage" style="text-align: center; padding: 60px 20px;">
+            <div class="spinner"></div>
+            <p>Processing your order...</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 PetSupply E-Commerce. All rights reserved.</p>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        // Check if logged in
+        if (!UIHelper.isLoggedIn()) {
+            window.location.href = 'login.html';
+        }
+
+        async function processOrderConfirmation() {
+            const params = new URLSearchParams(window.location.search);
+            const order_id = params.get('order_id');
+            const status = params.get('status');
+            const tx = params.get('tx'); // Transaction ID from eSewa
+            const amt = params.get('amt'); // Amount from eSewa
+            
+            const confirmationDiv = document.getElementById('confirmationMessage');
+            
+            if (status === 'success') {
+                // If payment came from eSewa, update payment status
+                if (tx && amt) {
+                    const paymentResponse = await APIService.paymentCallback({
+                        transaction_id: tx,
+                        status: 'success',
+                        order_id: order_id,
+                        amount: amt
+                    });
+                }
+                
+                // Get order details
+                const response = await APIService.getOrder(order_id);
+                
+                if (response.status === 200) {
+                    const order = response.data.order;
+                    
+                    let html = `
+                        <div style="background-color: white; padding: 40px; border-radius: 8px; max-width: 500px; margin: 0 auto;">
+                            <h2 style="color: var(--success-color); margin-bottom: 20px;">✓ Order Confirmed!</h2>
+                            <p style="margin-bottom: 20px;">Thank you for your order!</p>
+                            
+                            <div style="background-color: #f8f9fa; padding: 20px; border-radius: 5px; text-align: left; margin-bottom: 20px;">
+                                <p><strong>Order Number:</strong> ${order.order_number}</p>
+                                <p><strong>Total Amount:</strong> Rs. ${order.total_amount}</p>
+                                <p><strong>Payment Method:</strong> ${order.payment_method === 'cod' ? 'Cash on Delivery' : 'Online Payment'}</p>
+                                <p><strong>Status:</strong> <span class="status-badge status-${order.status}">${order.status}</span></p>
+                                <p><strong>Date:</strong> ${UIHelper.formatDate(order.created_at)}</p>
+                            </div>
+                            
+                            <h3 style="text-align: left; margin: 20px 0 10px;">Order Items:</h3>
+                            <div style="text-align: left; margin-bottom: 20px;">
+                    `;
+                    
+                    order.items.forEach(item => {
+                        html += `
+                            <div style="padding: 10px 0; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between;">
+                                <span>${item.product_name} x ${item.quantity}</span>
+                                <span>Rs. ${item.subtotal}</span>
+                            </div>
+                        `;
+                    });
+                    
+                    html += `
+                            </div>
+                            
+                            <h3 style="text-align: left; margin: 20px 0 10px;">Shipping Address:</h3>
+                            <p style="text-align: left; margin-bottom: 20px; white-space: pre-wrap;">${order.shipping_address}</p>
+                            
+                            <a href="orders.html" class="btn btn-primary" style="width: 100%; text-align: center;">View My Orders</a>
+                            <a href="index.html" class="btn btn-outline" style="width: 100%; text-align: center; margin-top: 10px;">Continue Shopping</a>
+                        </div>
+                    `;
+                    
+                    confirmationDiv.innerHTML = html;
+                } else {
+                    confirmationDiv.innerHTML = `
+                        <div style="background-color: white; padding: 40px; border-radius: 8px;">
+                            <h2 style="color: var(--success-color);">✓ Order Confirmed!</h2>
+                            <p>Your order has been successfully placed. You will receive an email confirmation shortly.</p>
+                            <a href="orders.html" class="btn btn-primary">View My Orders</a>
+                        </div>
+                    `;
+                }
+            } else {
+                confirmationDiv.innerHTML = `
+                    <div style="background-color: white; padding: 40px; border-radius: 8px; max-width: 500px; margin: 0 auto;">
+                        <h2 style="color: var(--danger-color); margin-bottom: 20px;">✗ Payment Failed</h2>
+                        <p style="margin-bottom: 20px;">Your payment was not successful. Please try again.</p>
+                        <a href="checkout.html" class="btn btn-primary" style="width: 100%; text-align: center;">Return to Checkout</a>
+                        <a href="cart.html" class="btn btn-outline" style="width: 100%; text-align: center; margin-top: 10px;">View Cart</a>
+                    </div>
+                `;
+            }
+        }
+
+        // Process confirmation on page load
+        processOrderConfirmation();
+    </script>
+</body>
+</html>

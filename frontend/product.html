@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - DroolsPet Premium Pet Supplies</title>
+    <meta name="description" content="Explore premium DroolsPet products crafted with love for your furry companions.">
+    <meta name="description" content="Explore premium DroolsPet products crafted with love for your furry companions.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ======================================================
+           Product Detail Page — Scoped Styles
+           ====================================================== */
+
+        /* Breadcrumb Bar */
+        .pdp-breadcrumbs {
+            padding: 18px 0 0;
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+        .pdp-breadcrumbs a { color: var(--text-muted); }
+        .pdp-breadcrumbs a:hover { color: var(--primary-green); }
+        .pdp-breadcrumbs span { color: var(--primary-green); font-weight: 700; }
+        .pdp-breadcrumbs i { margin: 0 8px; }
+
+        /* PDP Layout — two columns */
+        .pdp-section {
+            padding: 30px 0 80px;
+            background-color: var(--bg-beige);
+        }
+        .pdp-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        /* Gallery */
+        .pdp-gallery {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 16px;
+            position: sticky;
+            top: 90px;
+        }
+        .pdp-thumbnails {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .pdp-thumb {
+            width: 80px;
+            height: 80px;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 2px solid transparent;
+            cursor: pointer;
+            background-color: var(--bg-light-beige);
+            transition: var(--transition-smooth);
+            padding: 6px;
+        }
+        .pdp-thumb:hover,
+        .pdp-thumb.active {
+            border-color: var(--primary-green);
+            background-color: var(--white);
+        }
+        .pdp-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        .pdp-main-image-wrapper {
+            background-color: var(--bg-light-beige);
+            border-radius: 24px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            position: relative;
+        }
+        .pdp-wishlist-btn {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--white);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            font-size: 18px;
+            transition: var(--transition-smooth);
+            z-index: 5;
+            color: var(--text-muted);
+        }
+        .pdp-wishlist-btn:hover { color: var(--danger-color); transform: scale(1.1); }
+        .pdp-main-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 12px;
+            transition: transform 0.4s ease;
+        }
+        .pdp-main-image:hover { transform: scale(1.04); }
+
+        /* Info Panel */
+        .pdp-info {}
+        .pdp-badge-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .pdp-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+        .pdp-tag-organic {
+            background-color: rgba(30, 78, 66, 0.08);
+            color: var(--primary-green);
+            border: 1px solid rgba(30, 78, 66, 0.15);
+        }
+        .pdp-tag-discount {
+            background-color: var(--accent-orange);
+            color: white;
+        }
+        .pdp-tag-new {
+            background-color: #27ae60;
+            color: white;
+        }
+        .pdp-product-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 34px;
+            font-weight: 800;
+            color: var(--primary-green);
+            line-height: 1.2;
+            margin-bottom: 14px;
+        }
+        .pdp-rating-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .pdp-stars {
+            display: flex;
+            gap: 3px;
+        }
+        .star-filled { color: #F4B400; font-size: 18px; }
+        .star-empty { color: #E0D9D0; font-size: 18px; }
+        .pdp-review-count {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        .pdp-stock-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .pdp-stock-in { background: #d1e7dd; color: #0f5132; }
+        .pdp-stock-out { background: #f8d7da; color: #842029; }
+
+        /* Pricing */
+        .pdp-price-row {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .pdp-price {
+            font-family: 'Outfit', sans-serif;
+            font-size: 38px;
+            font-weight: 800;
+            color: var(--primary-green);
+        }
+        .pdp-price-original {
+            font-size: 20px;
+            color: var(--text-muted);
+            text-decoration: line-through;
+        }
+        .pdp-description {
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--text-muted);
+            margin-bottom: 28px;
+            padding-bottom: 28px;
+            border-bottom: 1px solid rgba(30,78,66,0.07);
+        }
+
+        /* Size Options */
+        .pdp-option-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 12px;
+        }
+        .pdp-sizes {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+        }
+        .size-btn {
+            padding: 10px 20px;
+            border: 2px solid rgba(30,78,66,0.12);
+            border-radius: 50px;
+            background: var(--white);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-family: 'Inter', sans-serif;
+        }
+        .size-btn:hover,
+        .size-btn.active {
+            border-color: var(--primary-green);
+            color: var(--primary-green);
+            background: rgba(30,78,66,0.04);
+        }
+
+        /* Quantity + CTA */
+        .pdp-cta-row {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+        .qty-wrapper {
+            display: flex;
+            align-items: center;
+            border: 2px solid rgba(30,78,66,0.12);
+            border-radius: 50px;
+            overflow: hidden;
+            background: var(--white);
+        }
+        .qty-btn {
+            width: 42px;
+            height: 42px;
+            border: none;
+            background: transparent;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--primary-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-smooth);
+        }
+        .qty-btn:hover { background: rgba(30,78,66,0.05); }
+        .qty-display {
+            width: 50px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-main);
+            border: none;
+            outline: none;
+            background: transparent;
+            font-family: 'Outfit', sans-serif;
+        }
+        .pdp-add-cart {
+            flex: 1;
+            padding: 15px 30px;
+            font-size: 16px;
+        }
+
+        /* Trust Badges */
+        .pdp-trust-row {
+            display: flex;
+            gap: 20px;
+        }
+        .pdp-trust-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 18px;
+            background: var(--bg-light-beige);
+            border-radius: 16px;
+            border: 1px solid rgba(30,78,66,0.04);
+            flex: 1;
+        }
+        .pdp-trust-icon {
+            font-size: 22px;
+            width: 40px;
+            height: 40px;
+            background: rgba(30,78,66,0.08);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .pdp-trust-text strong {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+        .pdp-trust-text span {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* ======================================================
+           Tabs Section
+           ====================================================== */
+        .pdp-tabs-section {
+            padding: 0 0 80px;
+            background: var(--bg-beige);
+        }
+        .pdp-tabs-nav {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid rgba(30,78,66,0.08);
+            margin-bottom: 50px;
+        }
+        .pdp-tab-btn {
+            padding: 16px 30px;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-family: 'Inter', sans-serif;
+        }
+        .pdp-tab-btn:hover { color: var(--primary-green); }
+        .pdp-tab-btn.active {
+            color: var(--primary-green);
+            border-bottom-color: var(--primary-green);
+        }
+        .pdp-tab-panel { display: none; }
+        .pdp-tab-panel.active { display: block; }
+
+        /* Description Tab Layout */
+        .pdp-desc-grid {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 50px;
+            align-items: start;
+        }
+        .pdp-desc-title {
+            font-size: 28px;
+            color: var(--primary-green);
+            margin-bottom: 18px;
+        }
+        .pdp-desc-body {
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+        .pdp-feature-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .pdp-feature-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+        .pdp-feature-list li::before {
+            content: '✓';
+            width: 22px;
+            height: 22px;
+            background: rgba(30,78,66,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary-green);
+            flex-shrink: 0;
+        }
+
+        /* Nutritional Card */
+        .nutritional-card {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(30,78,66,0.03);
+        }
+        .nutritional-card h4 {
+            font-size: 16px;
+            color: var(--text-main);
+            margin-bottom: 22px;
+            font-weight: 700;
+        }
+        .nutrition-row {
+            margin-bottom: 18px;
+        }
+        .nutrition-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .nutrition-label span:last-child { color: var(--text-muted); }
+        .nutrition-bar-track {
+            height: 8px;
+            background: rgba(30,78,66,0.06);
+            border-radius: 50px;
+            overflow: hidden;
+        }
+        .nutrition-bar-fill {
+            height: 100%;
+            border-radius: 50px;
+            transition: width 1s ease;
+        }
+        .bar-green { background: var(--primary-green); }
+        .bar-orange { background: var(--accent-orange); }
+        .bar-yellow { background: #F4B400; }
+
+        /* Reviews Tab */
+        .reviews-summary {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            background: var(--white);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: var(--card-shadow);
+        }
+        .reviews-score {
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .reviews-score .big-score {
+            font-family: 'Outfit', sans-serif;
+            font-size: 64px;
+            font-weight: 800;
+            color: var(--primary-green);
+            line-height: 1;
+        }
+        .reviews-score p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+        .reviews-bars { flex: 1; }
+        .review-bar-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+        .review-bar-label {
+            width: 45px;
+            font-weight: 600;
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+        .review-bar-track {
+            flex: 1;
+            height: 8px;
+            background: rgba(30,78,66,0.06);
+            border-radius: 50px;
+            overflow: hidden;
+        }
+        .review-bar-fill {
+            height: 100%;
+            background: #F4B400;
+            border-radius: 50px;
+        }
+        .review-bar-count {
+            width: 30px;
+            text-align: right;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .review-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+        .review-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: var(--card-shadow);
+        }
+        .review-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+        .reviewer-info { display: flex; align-items: center; gap: 12px; }
+        .reviewer-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .reviewer-name { font-weight: 700; font-size: 14px; }
+        .review-date { font-size: 12px; color: var(--text-muted); }
+        .review-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-muted);
+        }
+
+        /* ======================================================
+           Related Products
+           ====================================================== */
+        .related-section {
+            padding: 60px 0 100px;
+            background: var(--bg-light-beige);
+        }
+        .related-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 40px;
+        }
+        .related-header h2 {
+            font-size: 32px;
+            color: var(--primary-green);
+        }
+        .related-header p { color: var(--text-muted); font-size: 15px; }
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        /* ======================================================
+           Loading skeleton
+           ====================================================== */
+        .pdp-skeleton {
+            background: linear-gradient(90deg, #f0ebe3 25%, #e8e2da 50%, #f0ebe3 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 16px;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* ======================================================
+           Responsive
+           ====================================================== */
+        @media (max-width: 1100px) {
+            .pdp-layout { grid-template-columns: 1fr; gap: 40px; }
+            .pdp-gallery { position: static; }
+            .pdp-desc-grid { grid-template-columns: 1fr; }
+            .related-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .pdp-gallery { grid-template-columns: 1fr; }
+            .pdp-thumbnails { flex-direction: row; overflow-x: auto; }
+            .pdp-thumb { flex-shrink: 0; }
+            .pdp-product-title { font-size: 26px; }
+            .pdp-price { font-size: 30px; }
+            .pdp-trust-row { flex-direction: column; }
+            .pdp-cta-row { flex-wrap: wrap; }
+            .pdp-tabs-nav { overflow-x: auto; }
+            .pdp-tab-btn { padding: 14px 20px; white-space: nowrap; }
+            .reviews-summary { flex-direction: column; gap: 20px; }
+            .review-cards-grid { grid-template-columns: 1fr; }
+            .related-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        }
+        @media (max-width: 480px) {
+            .related-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Drools<span>Pet</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html" class="active">Shop</a></li>
+                <li><a href="categories.html">Categories</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-right">
+                <button class="icon-btn" onclick="window.location.href='shop.html'" title="Search Catalog"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <a href="cart.html" class="icon-btn cart-icon" title="Shopping Cart">
+                    <i class="fa-solid fa-cart-shopping"></i><span class="cart-count"></span>
+                </a>
+                <div class="auth-buttons"></div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Breadcrumbs -->
+    <section class="pdp-section" id="pdp-main">
+        <div class="container">
+            <div class="pdp-breadcrumbs" id="pdpBreadcrumbs">
+                <a href="index.html">Home</a>
+                <i>›</i>
+                <a href="shop.html">Shop</a>
+                <i>›</i>
+                <span id="pdpBreadcrumbName">Loading...</span>
+            </div>
+
+            <!-- Product Layout -->
+            <div class="pdp-layout" style="margin-top: 30px;" id="pdpLayout">
+                <!-- Skeleton placeholders while loading -->
+                <div style="display:grid; grid-template-columns:80px 1fr; gap:16px;">
+                    <div style="display:flex; flex-direction:column; gap:12px;">
+                        <div class="pdp-skeleton" style="height:80px;"></div>
+                        <div class="pdp-skeleton" style="height:80px;"></div>
+                        <div class="pdp-skeleton" style="height:80px;"></div>
+                        <div class="pdp-skeleton" style="height:80px;"></div>
+                    </div>
+                    <div class="pdp-skeleton" style="aspect-ratio:1; border-radius:24px;"></div>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:16px;">
+                    <div class="pdp-skeleton" style="height:24px; width:40%;"></div>
+                    <div class="pdp-skeleton" style="height:48px; width:80%;"></div>
+                    <div class="pdp-skeleton" style="height:20px; width:60%;"></div>
+                    <div class="pdp-skeleton" style="height:50px; width:50%;"></div>
+                    <div class="pdp-skeleton" style="height:80px;"></div>
+                    <div class="pdp-skeleton" style="height:50px;"></div>
+                    <div class="pdp-skeleton" style="height:55px;"></div>
+                    <div class="pdp-skeleton" style="height:90px;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tabs Section -->
+    <section class="pdp-tabs-section" id="pdpTabsSection" style="display:none;">
+        <div class="container">
+            <div class="pdp-tabs-nav">
+                <button class="pdp-tab-btn active" onclick="switchTab('description', this)" id="tab-description">Description</button>
+                <button class="pdp-tab-btn" onclick="switchTab('ingredients', this)" id="tab-ingredients">Ingredients</button>
+                <button class="pdp-tab-btn" onclick="switchTab('feeding', this)" id="tab-feeding">Feeding Guide</button>
+                <button class="pdp-tab-btn" onclick="switchTab('reviews', this)" id="tab-reviews">Reviews <span id="reviewCountBadge" style="background:rgba(30,78,66,0.08);color:var(--primary-green);border-radius:20px;padding:2px 8px;font-size:11px;margin-left:4px;"></span></button>
+            </div>
+
+            <!-- Description Panel -->
+            <div class="pdp-tab-panel active" id="panel-description">
+                <div class="pdp-desc-grid">
+                    <div>
+                        <h2 class="pdp-desc-title" id="descTitle">Pure Ingredients, Pure Love</h2>
+                        <p class="pdp-desc-body" id="descBody">At DroolsPet, we believe that your pet's health starts with their bowl. Our products are crafted using the highest quality ingredients sourced from trusted suppliers around the world.</p>
+                        <ul class="pdp-feature-list" id="descFeatures">
+                            <li>No Artificial Preservatives or Colors</li>
+                            <li>Grain-Free and Gluten-Free Formula</li>
+                            <li>Rich in Omega-3 &amp; Omega-6 for Coat Health</li>
+                            <li>Vet-Approved Nutritional Profile</li>
+                        </ul>
+                    </div>
+                    <div class="nutritional-card" id="nutritionalCard">
+                        <h4>Nutritional Values (per 100g)</h4>
+                        <div class="nutrition-row">
+                            <div class="nutrition-label"><span>Crude Protein</span><span id="protein-val">28.0%</span></div>
+                            <div class="nutrition-bar-track"><div class="nutrition-bar-fill bar-green" id="protein-bar" style="width: 56%"></div></div>
+                        </div>
+                        <div class="nutrition-row">
+                            <div class="nutrition-label"><span>Crude Fat</span><span id="fat-val">14.0%</span></div>
+                            <div class="nutrition-bar-track"><div class="nutrition-bar-fill bar-orange" id="fat-bar" style="width: 28%"></div></div>
+                        </div>
+                        <div class="nutrition-row">
+                            <div class="nutrition-label"><span>Moisture</span><span id="moisture-val">10.0%</span></div>
+                            <div class="nutrition-bar-track"><div class="nutrition-bar-fill bar-yellow" id="moisture-bar" style="width: 20%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ingredients Panel -->
+            <div class="pdp-tab-panel" id="panel-ingredients">
+                <div style="max-width: 760px;">
+                    <h2 class="pdp-desc-title">What's Inside?</h2>
+                    <p class="pdp-desc-body" id="ingredientsText">
+                        Salmon (min. 65%), Sweet Potato, Peas, Lentils, Salmon Oil, Alfalfa Meal, Natural Flavoring, Vitamins &amp; Mineral Blend (Vitamin A, Vitamin D3, Vitamin E, Vitamin B12, Iron, Zinc, Calcium, Phosphorus, Manganese), Rosemary Extract.
+                    </p>
+                    <div style="background: var(--white); border-radius: 20px; padding: 30px; box-shadow: var(--card-shadow);">
+                        <h4 style="font-size:16px; margin-bottom:16px; color:var(--primary-green);">Allergen Information</h4>
+                        <p style="font-size:14px; line-height:1.7; color:var(--text-muted);">This product is free from wheat, corn, soy, and artificial ingredients. Contains fish. May contain traces of other proteins processed in the same facility. Always consult your vet before changing your pet's diet.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feeding Guide Panel -->
+            <div class="pdp-tab-panel" id="panel-feeding">
+                <div style="max-width: 760px;">
+                    <h2 class="pdp-desc-title">Feeding Guidelines</h2>
+                    <p class="pdp-desc-body">Adjust portions based on your pet's age, size, and activity level. Fresh water should always be available. Introduce new food gradually over 7-10 days to avoid digestive upset.</p>
+                    <div style="background: var(--white); border-radius: 20px; overflow: hidden; box-shadow: var(--card-shadow);">
+                        <table style="width:100%; border-collapse:collapse; font-size:14px;">
+                            <thead>
+                                <tr style="background:var(--primary-green); color:white;">
+                                    <th style="padding:14px 20px; text-align:left; font-weight:600;">Pet Weight</th>
+                                    <th style="padding:14px 20px; text-align:center; font-weight:600;">Puppy / Kitten</th>
+                                    <th style="padding:14px 20px; text-align:center; font-weight:600;">Adult</th>
+                                    <th style="padding:14px 20px; text-align:center; font-weight:600;">Senior</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom:1px solid rgba(30,78,66,0.06);">
+                                    <td style="padding:14px 20px; font-weight:600;">Up to 5 kg</td>
+                                    <td style="padding:14px 20px; text-align:center; color:var(--text-muted);">60–100g/day</td>
+                                    <td style="padding:14px 20px; text-align:center; color:var(--text-muted);">50–80g/day</td>
+                                    <td style="padding:14px 20px; text-align:center; color:var(--text-muted);">45–70g/day</td>
+                                </tr>
+                                <tr style="border-bottom:1px solid rgba(30,78,66,0.06); background:rgba(30,78,66,0.01);">
+                                    <td style="padding:14px 20px; font-weight:600;">5–15 kg</td>
+                                    <td style="padding:14px 20px; text-align:center; color:var(--text-muted);">120–200g/day</td>
+                                    <td style="padding:14px 20px; text-align:center; color:var(--text-muted);">100–170g/day</td>
+                                    <td style="padding:14px 20px; text-align:center; color:var(--text-muted);">90–150g/day</td>
+                                </tr>
+                                <tr style="border-bottom:1px solid rgba(30,78,66,0.06);">
+                                    <td style="padding:14px 20px; font-weight:600;">15–30 kg</td>
+                                    <td style="padding:14px 20px; text-align:center; color:var(--text-muted);">250–360g/day</td>
+                                    <td style="padding:14px 20px; text-align:center; color:var(--text-muted);">200–290g/day</td>
+                                    <td style="padding:14px 20px; text-align:center; color:var(--text-muted);">175–260g/day</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:14px 20px; font-weight:600;">30 kg+</td>
+                                    <td style="padding:14px 20px; text-align:center; color:var(--text-muted);">400–550g/day</td>
+                                    <td style="padding:14px 20px; text-align:center; color:var(--text-muted);">340–480g/day</td>
+                                    <td style="padding:14px 20px; text-align:center; color:var(--text-muted);">300–420g/day</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reviews Panel -->
+            <div class="pdp-tab-panel" id="panel-reviews">
+                <div class="reviews-summary" id="reviewsSummary">
+                    <div class="reviews-score">
+                        <div class="big-score" id="bigScore">4.9</div>
+                        <div class="pdp-stars" style="justify-content:center; margin: 8px 0;">
+                            <span class="star-filled">★</span><span class="star-filled">★</span>
+                            <span class="star-filled">★</span><span class="star-filled">★</span>
+                            <span class="star-filled">★</span>
+                        </div>
+                        <p id="totalReviewsText">128 Reviews</p>
+                    </div>
+                    <div class="reviews-bars">
+                        <div class="review-bar-row"><span class="review-bar-label">5 ★</span><div class="review-bar-track"><div class="review-bar-fill" style="width:78%"></div></div><span class="review-bar-count">100</span></div>
+                        <div class="review-bar-row"><span class="review-bar-label">4 ★</span><div class="review-bar-track"><div class="review-bar-fill" style="width:15%"></div></div><span class="review-bar-count">19</span></div>
+                        <div class="review-bar-row"><span class="review-bar-label">3 ★</span><div class="review-bar-track"><div class="review-bar-fill" style="width:5%"></div></div><span class="review-bar-count">6</span></div>
+                        <div class="review-bar-row"><span class="review-bar-label">2 ★</span><div class="review-bar-track"><div class="review-bar-fill" style="width:2%"></div></div><span class="review-bar-count">2</span></div>
+                        <div class="review-bar-row"><span class="review-bar-label">1 ★</span><div class="review-bar-track"><div class="review-bar-fill" style="width:1%"></div></div><span class="review-bar-count">1</span></div>
+                    </div>
+                </div>
+                <div class="review-cards-grid" id="reviewsGrid">
+                    <!-- Injected by JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="related-section" id="relatedSection" style="display:none;">
+        <div class="container">
+            <div class="related-header">
+                <div>
+                    <h2>You Might Also Love</h2>
+                    <p>Specially curated pairings for your pet.</p>
+                </div>
+                <a href="shop.html" class="view-all-link">View Shop &rarr;</a>
+            </div>
+            <div class="related-grid" id="relatedGrid">
+                <!-- Injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer-brand">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">Drools<span>Pet</span></a>
+                    <p>Bringing joy and health to your pets through premium, organic, and sustainable products built for happy tails and purrs.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon">🌐</a>
+                        <a href="#" class="social-icon">📸</a>
+                        <a href="#" class="social-icon">🐦</a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                        <li><a href="categories.html">Categories</a></li>
+                        <li><a href="#footer-brand">Subscription</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Customer Care</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Newsletter</h4>
+                    <p style="font-size:13px; color:var(--text-muted); line-height:1.5; margin-bottom:15px;">Join the pack for exclusive deals and pet care tips.</p>
+                    <form onsubmit="event.preventDefault(); alert('Thank you for subscribing!'); this.reset();" style="display:flex; flex-direction:column; gap:10px;">
+                        <input type="email" placeholder="Email address" required style="padding:12px 18px; border:1px solid rgba(30,78,66,0.1); border-radius:10px; font-size:14px;">
+                        <button type="submit" class="btn btn-primary btn-small" style="padding:12px; width:100%;">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                <p>&copy; 2024 DroolsPet. All rights reserved. Built for happy tails.</p>
+                <div style="display:flex; gap:20px; font-size:13px; color:var(--text-muted);">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        // ============================================================
+        // Product Detail Page Logic
+        // ============================================================
+
+        let currentProduct = null;
+        let currentQty = 1;
+        let selectedSize = null;
+
+        // Mock size options per product type
+        const sizeOptions = {
+            'food': [
+                { label: '500g', multiplier: 1 },
+                { label: '1.5kg', multiplier: 2.5 },
+                { label: '3kg', multiplier: 4.5 }
+            ],
+            'toy': [
+                { label: 'Small', multiplier: 0.8 },
+                { label: 'Medium', multiplier: 1 },
+                { label: 'Large', multiplier: 1.4 }
+            ],
+            'bed': [
+                { label: 'Small', multiplier: 0.85 },
+                { label: 'Medium', multiplier: 1 },
+                { label: 'Large', multiplier: 1.3 }
+            ],
+            'default': [
+                { label: 'Standard', multiplier: 1 },
+                { label: 'Value Pack', multiplier: 1.8 }
+            ]
+        };
+
+        // Same product mapping used in shop.html
+        function mapProductToMockup(product) {
+            if (!product) return null;
+            const p = { ...product };
+            const nameLower = p.name.toLowerCase();
+
+            p.rating = (4.4 + (p.id % 7) / 10).toFixed(1);
+            p.review_count = 10 + (p.id * 17) % 120;
+            p.badge = null;
+            p.original_price = null;
+            p.pet_type = 'small_pets';
+            p.product_type = 'default';
+
+            if (p.sku === 'DOG-KIBBLE-5KG' || nameLower.includes('kibble')) {
+                p.name = 'Organic Salmon & Pea Kibble';
+                p.price = 34.99; p.original_price = 42.99;
+                p.image_url = 'https://images.unsplash.com/photo-1568640347023-a61c9c8030e9?w=700&auto=format&fit=crop&q=80';
+                p.rating = '4.9'; p.review_count = 128;
+                p.category_name = 'DOG FOOD'; p.badge = 'BEST SELLER';
+                p.pet_type = 'dog'; p.product_type = 'food';
+            } else if (p.sku === 'BED-MED-GREY' || p.sku === 'BED-ORTHO-MED' || nameLower.includes('bed')) {
+                p.name = 'Velvet Dream Cloud Bed';
+                p.price = 59.00;
+                p.image_url = 'https://images.unsplash.com/photo-1541599540903-216a46ca1ad0?w=700&auto=format&fit=crop&q=80';
+                p.rating = '4.8'; p.review_count = 96;
+                p.category_name = 'CAT ACCESSORIES'; p.pet_type = 'cat'; p.product_type = 'bed';
+            } else if (p.sku === 'TENNIS-BALL-3PC' || nameLower.includes('tennis') || nameLower.includes('duck')) {
+                p.name = 'Tough-Chew Tropical Set';
+                p.price = 18.50;
+                p.image_url = 'https://images.unsplash.com/photo-1576201836106-db1758fd1c97?w=700&auto=format&fit=crop&q=80';
+                p.rating = '5.0'; p.review_count = 74;
+                p.category_name = 'DOG TOYS'; p.badge = 'NEW ARRIVAL';
+                p.pet_type = 'dog'; p.product_type = 'toy';
+            } else if (p.sku === 'BOWL-SET-2PC' || p.sku === 'BOWL-STEEL-2PC' || nameLower.includes('bowl')) {
+                p.name = 'Modern Vista Bird Feeder';
+                p.price = 42.00;
+                p.image_url = 'https://images.unsplash.com/photo-1590424753092-7a71b2656366?w=700&auto=format&fit=crop&q=80';
+                p.rating = '4.7'; p.review_count = 52;
+                p.category_name = 'BIRD CARE'; p.pet_type = 'bird'; p.product_type = 'default';
+            } else if (p.sku === 'LEASH-1.5M' || p.sku === 'LEASH-5FT-BLK' || nameLower.includes('leash')) {
+                p.name = 'Ultra-Silent Crystal Filter';
+                p.price = 28.90; p.original_price = 34.00;
+                p.image_url = 'https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?w=700&auto=format&fit=crop&q=80';
+                p.rating = '4.6'; p.review_count = 43;
+                p.category_name = 'FISH TECH'; p.badge = '15% OFF';
+                p.pet_type = 'fish'; p.product_type = 'default';
+            } else if (p.sku === 'PUPPY-ORGANIC' || nameLower.includes('puppy')) {
+                p.name = 'Premium Grain-Free Mix';
+                p.price = 45.99;
+                p.image_url = 'https://images.unsplash.com/photo-1589726480295-cf88b7d93d1b?w=700&auto=format&fit=crop&q=80';
+                p.rating = '4.8'; p.review_count = 89;
+                p.category_name = 'DOG FOOD'; p.pet_type = 'dog'; p.product_type = 'food';
+            } else if (p.sku === 'SHAMPOO-500ML' || nameLower.includes('shampoo')) {
+                p.name = 'Lavender Pet Shampoo';
+                p.price = 18.50;
+                p.image_url = 'https://images.unsplash.com/photo-1599305589939-e654d0c6b13b?w=700&auto=format&fit=crop&q=80';
+                p.rating = '4.7'; p.review_count = 61;
+                p.category_name = 'GROOMING'; p.pet_type = 'dog'; p.product_type = 'default';
+            } else if (p.sku === 'CATNIP-MOUSE-5PC' || nameLower.includes('catnip')) {
+                p.name = 'Peanut Butter Artisan Hearts';
+                p.price = 12.99;
+                p.image_url = 'https://images.unsplash.com/photo-1594647869516-5a01a9014e0e?w=700&auto=format&fit=crop&q=80';
+                p.rating = '5.0'; p.review_count = 38;
+                p.category_name = 'TREATS'; p.pet_type = 'cat'; p.product_type = 'food';
+            } else {
+                if (p.category_id === 1 || p.category_id === 3) {
+                    p.pet_type = 'dog';
+                    p.category_name = p.category_id === 1 ? 'DOG FOOD' : 'DOG TOYS';
+                    p.product_type = p.category_id === 1 ? 'food' : 'toy';
+                } else if (p.category_id === 2 || p.category_id === 4) {
+                    p.pet_type = 'cat';
+                    p.category_name = p.category_id === 2 ? 'CAT FOOD' : 'CAT TOYS';
+                    p.product_type = p.category_id === 2 ? 'food' : 'toy';
+                }
+                if (p.image_url && (p.image_url.includes('placeholder') || p.image_url.includes('via.placeholder'))) {
+                    p.image_url = p.pet_type === 'dog'
+                        ? 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=700&auto=format&fit=crop&q=80'
+                        : 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=700&auto=format&fit=crop&q=80';
+                }
+            }
+            return p;
+        }
+
+        // Generate thumbnail images for the gallery
+        function getThumbnails(product) {
+            const base = product.image_url;
+            // Use related Unsplash images for extra gallery variety
+            const alternates = {
+                'food': [
+                    'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=200&auto=format&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1589726480295-cf88b7d93d1b?w=200&auto=format&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=200&auto=format&fit=crop&q=80',
+                ],
+                'toy': [
+                    'https://images.unsplash.com/photo-1535268647677-300dbf3d78d1?w=200&auto=format&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?w=200&auto=format&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1544568100-847a948585b9?w=200&auto=format&fit=crop&q=80',
+                ],
+                'bed': [
+                    'https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?w=200&auto=format&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=200&auto=format&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1535268647677-300dbf3d78d1?w=200&auto=format&fit=crop&q=80',
+                ],
+                'default': [
+                    'https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=200&auto=format&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1535268647677-300dbf3d78d1?w=200&auto=format&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?w=200&auto=format&fit=crop&q=80',
+                ]
+            };
+            const alts = alternates[product.product_type] || alternates['default'];
+            return [base, ...alts];
+        }
+
+        // Render star rating HTML
+        function renderStars(rating) {
+            const full = Math.floor(parseFloat(rating));
+            let html = '';
+            for (let i = 1; i <= 5; i++) {
+                html += `<span class="${i <= full ? 'star-filled' : 'star-empty'}">★</span>`;
+            }
+            return html;
+        }
+
+        // Render product detail into #pdpLayout
+        function renderProduct(product) {
+            currentProduct = product;
+            const thumbs = getThumbnails(product);
+            const sizes = sizeOptions[product.product_type] || sizeOptions['default'];
+            selectedSize = sizes[0];
+            const basePrice = parseFloat(product.price);
+            const isOutOfStock = product.quantity_in_stock === 0;
+
+            // Update title & breadcrumb
+            document.title = `${product.name} — DroolsPet`;
+            document.getElementById('pdpBreadcrumbName').textContent = product.name;
+
+            // Badges
+            let badgeHTML = '';
+            if (product.badge === 'BEST SELLER' || product.product_type === 'food') {
+                badgeHTML += `<span class="pdp-tag pdp-tag-organic">✓ 100% Organic</span>`;
+            }
+            if (product.badge === 'NEW ARRIVAL') {
+                badgeHTML += `<span class="pdp-tag pdp-tag-new">🌟 New Arrival</span>`;
+            }
+            if (product.original_price) {
+                const disc = Math.round((1 - basePrice / parseFloat(product.original_price)) * 100);
+                badgeHTML += `<span class="pdp-tag pdp-tag-discount">${disc}% OFF</span>`;
+            }
+
+            // Price HTML
+            let priceHTML = `<span class="pdp-price">${UIHelper.formatCurrency(basePrice)}</span>`;
+            if (product.original_price) {
+                priceHTML += `<span class="pdp-price-original">${UIHelper.formatCurrency(product.original_price)}</span>`;
+            }
+
+            // Thumbnails HTML
+            const thumbsHTML = thumbs.map((url, i) => `
+                <div class="pdp-thumb ${i === 0 ? 'active' : ''}" onclick="switchImage('${url}', this)">
+                    <img src="${url}" alt="View ${i + 1}" loading="lazy">
+                </div>
+            `).join('');
+
+            // Size buttons
+            const sizeBtnsHTML = sizes.map((s, i) => `
+                <button class="size-btn ${i === 0 ? 'active' : ''}" 
+                    onclick="selectSize(${JSON.stringify(s).replace(/"/g, '&quot;')}, this, ${basePrice})">
+                    ${s.label}
+                </button>
+            `).join('');
+
+            // Wishlist state
+            const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+            const isWishlisted = wishlist.includes(product.id);
+
+            document.getElementById('pdpLayout').innerHTML = `
+                <!-- Gallery -->
+                <div class="pdp-gallery">
+                    <div class="pdp-thumbnails">${thumbsHTML}</div>
+                    <div class="pdp-main-image-wrapper">
+                        <button class="pdp-wishlist-btn" id="pdpWishlistBtn" 
+                            onclick="toggleWishlist(${product.id})"
+                            title="Save to Wishlist"
+                            style="color: ${isWishlisted ? 'var(--danger-color)' : 'var(--text-muted)'}"><i class="fa-solid fa-heart"></i></button>
+                        <img id="pdpMainImg" src="${thumbs[0]}" alt="${product.name}" class="pdp-main-image">
+                    </div>
+                </div>
+
+                <!-- Info Panel -->
+                <div class="pdp-info">
+                    <div class="pdp-badge-row">${badgeHTML}</div>
+
+                    <h1 class="pdp-product-title">${product.name}</h1>
+
+                    <div class="pdp-rating-row">
+                        <div class="pdp-stars">${renderStars(product.rating)}</div>
+                        <span class="pdp-review-count">(${product.review_count} Reviews)</span>
+                        <span class="pdp-stock-badge ${isOutOfStock ? 'pdp-stock-out' : 'pdp-stock-in'}">
+                            ${isOutOfStock ? 'Out of Stock' : 'In Stock'}
+                        </span>
+                    </div>
+
+                    <div class="pdp-price-row">${priceHTML}</div>
+
+                    <p class="pdp-description">
+                        Fuel your furry friend with the finest sustainable ingredients. 
+                        Packed with essential nutrients for active play. Our products are grain-free, 
+                        no fillers, and cold-pressed to preserve every ounce of nutrition.
+                    </p>
+
+                    <!-- Size Options -->
+                    <p class="pdp-option-label">Size Options</p>
+                    <div class="pdp-sizes">${sizeBtnsHTML}</div>
+
+                    <!-- Qty + CTA -->
+                    <div class="pdp-cta-row">
+                        <div class="qty-wrapper">
+                            <button class="qty-btn" onclick="changeQty(-1)">−</button>
+                            <input type="text" class="qty-display" id="qtyDisplay" value="1" readonly>
+                            <button class="qty-btn" onclick="changeQty(1)">+</button>
+                        </div>
+                        <button class="btn btn-primary pdp-add-cart" 
+                            onclick="handleAddToCart(${product.id})"
+                            id="pdpAddCartBtn"
+                            ${isOutOfStock ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : ''}>
+                            <i class="fa-solid fa-cart-shopping"></i> Add to Cart
+                        </button>
+                    </div>
+
+                    <!-- Trust Badges -->
+                    <div class="pdp-trust-row">
+                        <div class="pdp-trust-item">
+                            <div class="pdp-trust-icon"><i class="fa-solid fa-truck-fast"></i></div>
+                            <div class="pdp-trust-text">
+                                <strong>Fast Delivery</strong>
+                                <span>2-3 Bus. Days</span>
+                            </div>
+                        </div>
+                        <div class="pdp-trust-item">
+                            <div class="pdp-trust-icon"><i class="fa-solid fa-lock"></i></div>
+                            <div class="pdp-trust-text">
+                                <strong>100% Secure</strong>
+                                <span>Encrypted Payment</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Update tab counters
+            document.getElementById('reviewCountBadge').textContent = product.review_count;
+            document.getElementById('bigScore').textContent = product.rating;
+            document.getElementById('totalReviewsText').textContent = `${product.review_count} Reviews`;
+
+            // Update nutritional values based on product type
+            updateNutritionalCard(product.product_type);
+
+            // Show tabs & related
+            document.getElementById('pdpTabsSection').style.display = 'block';
+            document.getElementById('relatedSection').style.display = 'block';
+        }
+
+        // Update nutrition values per product type
+        function updateNutritionalCard(type) {
+            const nutrition = {
+                'food': { protein: 28, fat: 14, moisture: 10 },
+                'toy': null, // toys don't have nutrition
+                'bed': null,
+                'default': { protein: 22, fat: 12, moisture: 8 }
+            };
+            const vals = nutrition[type];
+            if (!vals) {
+                document.getElementById('nutritionalCard').style.display = 'none';
+                return;
+            }
+            document.getElementById('protein-val').textContent = vals.protein + '.0%';
+            document.getElementById('fat-val').textContent = vals.fat + '.0%';
+            document.getElementById('moisture-val').textContent = vals.moisture + '.0%';
+            document.getElementById('protein-bar').style.width = (vals.protein * 2) + '%';
+            document.getElementById('fat-bar').style.width = (vals.fat * 2) + '%';
+            document.getElementById('moisture-bar').style.width = (vals.moisture * 2) + '%';
+        }
+
+        // Render related products
+        function renderRelated(products, currentId) {
+            const grid = document.getElementById('relatedGrid');
+            const related = products
+                .filter(p => p.id !== currentId)
+                .slice(0, 4)
+                .map(p => mapProductToMockup(p));
+
+            grid.innerHTML = related.map(p => `
+                <div class="product-card" onclick="window.location.href='product.html?id=${p.id}'" style="cursor:pointer;">
+                    <div class="product-image-container">
+                        <img src="${p.image_url}" alt="${p.name}" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <div>
+                            <div class="product-meta">
+                                <span class="product-category">${p.category_name}</span>
+                                <span class="product-rating"><i class="fa-solid fa-star"></i> ${p.rating}</span>
+                            </div>
+                            <h3 class="product-name">${p.name}</h3>
+                        </div>
+                        <div>
+                            <div class="product-stock" style="${p.quantity_in_stock === 0 ? 'color:var(--danger-color)' : ''}">
+                                ${p.quantity_in_stock === 0 ? 'Out of Stock' : 'In Stock'}
+                            </div>
+                            <div class="product-footer">
+                                <span class="product-price">${UIHelper.formatCurrency(p.price)}</span>
+                                <button class="add-cart-floating" onclick="event.stopPropagation(); quickAddToCart(${p.id})" ${p.quantity_in_stock === 0 ? 'disabled' : ''}><i class="fa-solid fa-cart-shopping"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Mock reviews data
+        function renderReviews(product) {
+            const reviewData = [
+                { name: 'Sarah M.', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&fit=crop', rating: 5, date: '2 days ago', text: `My Golden absolutely loves this! The quality is outstanding and you can tell it's made with real ingredients. He finishes his bowl every single time.` },
+                { name: 'David C.', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&fit=crop', rating: 5, date: '1 week ago', text: `Switched our cat to this and the difference in coat shine is remarkable. Definitely worth the price — you can taste (just kidding) the quality!` },
+                { name: 'Elena R.', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&fit=crop', rating: 4, date: '2 weeks ago', text: `Great product overall. Delivery was super fast too. The only minor thing is the bag could be resealable, but the product itself is fantastic.` },
+                { name: 'James T.', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&fit=crop', rating: 5, date: '3 weeks ago', text: `Our vet recommended a grain-free diet and this was the perfect recommendation. Rocky has more energy and his digestion has improved significantly.` },
+            ];
+            document.getElementById('reviewsGrid').innerHTML = reviewData.map(r => `
+                <div class="review-card">
+                    <div class="review-card-header">
+                        <div class="reviewer-info">
+                            <img src="${r.avatar}" alt="${r.name}" class="reviewer-avatar">
+                            <div>
+                                <div class="reviewer-name">${r.name}</div>
+                                <div class="review-date">${r.date}</div>
+                            </div>
+                        </div>
+                        <div class="pdp-stars">${renderStars(r.rating)}</div>
+                    </div>
+                    <p class="review-text">"${r.text}"</p>
+                </div>
+            `).join('');
+        }
+
+        // ============================================================
+        // Interactivity
+        // ============================================================
+
+        function switchImage(url, el) {
+            document.getElementById('pdpMainImg').src = url;
+            document.querySelectorAll('.pdp-thumb').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        function selectSize(size, el, basePrice) {
+            selectedSize = size;
+            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        function changeQty(delta) {
+            currentQty = Math.max(1, Math.min(currentQty + delta, currentProduct?.quantity_in_stock || 99));
+            document.getElementById('qtyDisplay').value = currentQty;
+        }
+
+        function toggleWishlist(productId) {
+            let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+            const btn = document.getElementById('pdpWishlistBtn');
+            if (wishlist.includes(productId)) {
+                wishlist = wishlist.filter(id => id !== productId);
+                btn.style.color = 'var(--text-muted)';
+                UIHelper.showAlert('Removed from wishlist', 'warning');
+            } else {
+                wishlist.push(productId);
+                btn.style.color = 'var(--danger-color)';
+                UIHelper.showAlert('<i class="fa-solid fa-heart"></i> Added to wishlist!');
+            }
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        }
+
+        async function handleAddToCart(productId) {
+            if (!UIHelper.isLoggedIn()) {
+                UIHelper.showAlert('Please login to add items to cart', 'warning');
+                UIHelper.redirectToLogin();
+                return;
+            }
+            const btn = document.getElementById('pdpAddCartBtn');
+            btn.disabled = true;
+            btn.textContent = 'Adding...';
+            const response = await APIService.addToCart(productId, currentQty);
+            if (response.status === 200) {
+                btn.textContent = '✓ Added to Cart!';
+                btn.style.background = '#27ae60';
+                UIHelper.showAlert(`<i class="fa-solid fa-cart-shopping"></i> ${currentQty} item(s) added to cart!`);
+                UIHelper.updateCartCount();
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fa-solid fa-cart-shopping"></i> Add to Cart';
+                    btn.style.background = '';
+                }, 2000);
+            } else {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-cart-shopping"></i> Add to Cart';
+                UIHelper.showError(response.data.error || 'Failed to add to cart');
+            }
+        }
+
+        async function quickAddToCart(productId) {
+            if (!UIHelper.isLoggedIn()) {
+                UIHelper.showAlert('Please login to add items to cart', 'warning');
+                UIHelper.redirectToLogin();
+                return;
+            }
+            const response = await APIService.addToCart(productId, 1);
+            if (response.status === 200) {
+                UIHelper.showAlert('<i class="fa-solid fa-cart-shopping"></i> Added to cart!');
+                UIHelper.updateCartCount();
+            } else {
+                UIHelper.showError(response.data.error || 'Failed to add to cart');
+            }
+        }
+
+        function switchTab(tab, el) {
+            document.querySelectorAll('.pdp-tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.pdp-tab-panel').forEach(p => p.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById(`panel-${tab}`).classList.add('active');
+        }
+
+        // ============================================================
+        // Initialize — load product from URL param
+        // ============================================================
+        window.addEventListener('load', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+
+            if (!productId) {
+                document.getElementById('pdpLayout').innerHTML = `
+                    <div style="grid-column:1/-1; text-align:center; padding:80px 20px;">
+                        <div style="font-size:48px; margin-bottom:20px;">🐾</div>
+                        <h2 style="color:var(--primary-green); margin-bottom:12px;">No Product Selected</h2>
+                        <p style="color:var(--text-muted); margin-bottom:30px;">Head back to the shop to browse our catalog.</p>
+                        <a href="shop.html" class="btn btn-primary">Browse the Shop</a>
+                    </div>`;
+                return;
+            }
+
+            try {
+                const response = await APIService.getProduct(productId);
+                if (response.status !== 200 || !response.data?.product) {
+                    throw new Error(response.data?.error || 'Product not found');
+                }
+
+                const product = mapProductToMockup(response.data.product);
+                if (!product) {
+                    throw new Error('Product not found');
+                }
+
+                renderProduct(product);
+                renderReviews(product);
+
+                const allResponse = await APIService.getProducts(1, 20);
+                if (allResponse.status === 200) {
+                    renderRelated(allResponse.data.products, product.id);
+                }
+            } catch (error) {
+                console.error('Failed to load product:', error);
+                document.getElementById('pdpLayout').innerHTML = `
+                    <div style="grid-column:1/-1; text-align:center; padding:80px 20px;">
+                        <div style="font-size:48px; margin-bottom:20px;">😢</div>
+                        <h2 style="color:var(--primary-green); margin-bottom:12px;">Product Not Found</h2>
+                        <p style="color:var(--text-muted); margin-bottom:30px;">This item may have been removed or doesn't exist.</p>
+                        <a href="shop.html" class="btn btn-primary">Back to Shop</a>
+                    </div>`;
+            }
+        });
+    </script>
+</body>
+</html>

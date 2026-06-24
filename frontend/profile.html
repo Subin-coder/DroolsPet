@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - PetSupply E-Commerce</title>
+    <title>My Profile - PetSupply E-Commerce</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Drools<span>Pet</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="orders.html">My Orders</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="cart.html" class="cart-icon"><i class="fa-solid fa-cart-shopping"></i><span class="cart-count"></span></a></li>
+            </ul>
+            <div class="auth-buttons"></div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1 style="margin: 30px 0;">My Profile</h1>
+        
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px;">
+            <!-- Profile Form -->
+            <form onsubmit="handleUpdateProfile(event)" class="checkout-form">
+                <h2>Profile Information</h2>
+                
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" disabled>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" disabled>
+                </div>
+                
+                <div class="form-group">
+                    <label for="full_name">Full Name</label>
+                    <input type="text" id="full_name" name="full_name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <textarea id="address" name="address"></textarea>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" id="city" name="city">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="postal_code">Postal Code</label>
+                        <input type="text" id="postal_code" name="postal_code">
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <input type="text" id="country" name="country">
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Update Profile</button>
+            </form>
+            
+            <!-- Quick Links -->
+            <div>
+                <div style="background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                    <h3 style="margin-bottom: 20px;">Quick Links</h3>
+                    <a href="orders.html" class="btn btn-secondary" style="width: 100%; text-align: center; margin-bottom: 10px;">View Orders</a>
+                    <a href="cart.html" class="btn btn-outline" style="width: 100%; text-align: center; margin-bottom: 10px;">View Cart</a>
+                    <button onclick="logout()" class="btn btn-danger" style="width: 100%;">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 PetSupply E-Commerce. All rights reserved.</p>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        // Check if logged in
+        if (!UIHelper.isLoggedIn()) {
+            window.location.href = 'login.html';
+        }
+
+        async function loadProfile() {
+            const response = await APIService.getProfile();
+            
+            if (response.status === 200) {
+                const user = response.data.user;
+                
+                document.getElementById('username').value = user.username || '';
+                document.getElementById('email').value = user.email || '';
+                document.getElementById('full_name').value = user.full_name || '';
+                document.getElementById('phone').value = user.phone || '';
+                document.getElementById('address').value = user.address || '';
+                document.getElementById('city').value = user.city || '';
+                document.getElementById('country').value = user.country || '';
+                document.getElementById('postal_code').value = user.postal_code || '';
+            }
+        }
+
+        async function handleUpdateProfile(event) {
+            event.preventDefault();
+            
+            const data = {
+                full_name: document.getElementById('full_name').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                city: document.getElementById('city').value,
+                country: document.getElementById('country').value,
+                postal_code: document.getElementById('postal_code').value
+            };
+            
+            const response = await APIService.updateProfile(data);
+            
+            if (response.status === 200) {
+                UIHelper.showAlert('Profile updated successfully!');
+            } else {
+                UIHelper.showError(response.data.error || 'Failed to update profile');
+            }
+        }
+
+        loadProfile();
+    </script>
+</body>
+</html>

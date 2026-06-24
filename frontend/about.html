@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - DroolsPet Premium Pet Supplies</title>
+    <title>About Us - DroolsPet Premium Pet Supplies</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .about-hero {
+            background-color: var(--primary-green);
+            color: var(--white);
+            padding: 80px 0;
+            text-align: center;
+        }
+        .about-hero h1 {
+            font-size: 46px;
+            font-family: 'Outfit', sans-serif;
+            margin-bottom: 15px;
+        }
+        .about-hero p {
+            font-size: 20px;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .about-content {
+            padding: 80px 0;
+            background-color: var(--white);
+        }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        .about-img-container {
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow-hover);
+            height: 450px;
+        }
+        .about-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .about-text h2 {
+            font-size: 36px;
+            color: var(--primary-green);
+            font-family: 'Outfit', sans-serif;
+            margin-bottom: 20px;
+        }
+        .about-text p {
+            font-size: 16px;
+            color: var(--text-main);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+        .about-values {
+            padding: 60px 0;
+            background-color: var(--bg-beige);
+        }
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .value-card {
+            background-color: var(--white);
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            border: 1px solid rgba(30,78,66,0.05);
+        }
+        .value-icon {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .value-card h3 {
+            font-family: 'Outfit', sans-serif;
+            color: var(--primary-green);
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        .value-card p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Drools<span>Pet</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="categories.html">Categories</a></li>
+                <li><a href="about.html" class="active">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-right">
+                <button class="icon-btn" onclick="window.location.href='shop.html'" title="Search Products"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <a href="cart.html" class="icon-btn cart-icon" title="Shopping Cart">
+                    <i class="fa-solid fa-cart-shopping"></i><span class="cart-count"></span>
+                </a>
+                <div class="auth-buttons">
+                    <!-- Loaded dynamically via app.js UIHelper.updateHeader() -->
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="about-hero">
+        <div class="container">
+            <h1>Our Mission: Happy, Healthy Pets</h1>
+            <p>We are a dedicated team of pet parents making premium nourishment and play essentials accessible to everyone.</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="about-content">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-img-container">
+                    <img src="https://images.unsplash.com/photo-1544568100-847a948585b9?w=600&auto=format&fit=crop&q=80" alt="Team with pets">
+                </div>
+                <div class="about-text">
+                    <h2>How We Started</h2>
+                    <p>Founded in 2020, DroolsPet began with a simple idea: every pet deserves premium nutrition and accessories without breaking the bank. What started in a small home office has grown into a nationwide network delivering premium supplies right to your doorstep.</p>
+                    <p>We source only the safest materials and wholesome, grain-free ingredients. Because we believe our furry, feathered, and scaled friends are family, and family gets only the absolute best.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Values -->
+    <section class="about-values">
+        <div class="container">
+            <div class="section-header" style="text-align: center;">
+                <h2>Our Core Values</h2>
+                <p>The principles guiding our daily operations</p>
+            </div>
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon"><i class="fa-solid fa-paw"></i></div>
+                    <h3>Pet First</h3>
+                    <p>Every product is tested and approved by our own pet companions before joining the store catalog.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h3>Quality Uncompromised</h3>
+                    <p>We work exclusively with ethical brands committed to premium materials and organic formulations.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon"><i class="fa-solid fa-truck-fast"></i></div>
+                    <h3>Speedy Care</h3>
+                    <p>Our warehouse operations are optimized to package and dispatch your orders within hours.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" style="padding: 80px 0; background-color: var(--white);">
+        <div class="container">
+            <div class="section-header" style="text-align: center; margin-bottom: 50px;">
+                <h2>Happy Tails & Whiskers</h2>
+                <p>Real stories from our pet-loving community</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="quote-icon">“</div>
+                    <p class="testimonial-text">"The subscription service has been a lifesaver! I never have to worry about running out of Rocky's favorite kibble. The quality is always top-notch."</p>
+                    <div class="testimonial-user">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&fit=crop" alt="Sarah Miller">
+                        <div class="user-info">
+                            <h5>Sarah Miller</h5>
+                            <p>Golden Retriever Mom</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="quote-icon">“</div>
+                    <p class="testimonial-text">"DroolsPet has the best toy selection I've ever seen. My cat, Luna, is finally active and happy. The delivery was surprisingly fast!"</p>
+                    <div class="testimonial-user">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&fit=crop" alt="David Chen">
+                        <div class="user-info">
+                            <h5>David Chen</h5>
+                            <p>Cat Enthusiast</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="quote-icon">“</div>
+                    <p class="testimonial-text">"The grooming products are gentle and smell amazing. Customer support was so helpful when I had questions about my puppy's allergies."</p>
+                    <div class="testimonial-user">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&fit=crop" alt="Elena Rodriguez">
+                        <div class="user-info">
+                            <h5>Elena Rodriguez</h5>
+                            <p>Rough Collie Owner</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer-brand">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">Drools<span>Pet</span></a>
+                    <p>Premium pet supplies delivered with love since 2020. Making every tail wag and cat purr.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fa-brands fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Shop</h4>
+                    <ul class="footer-links">
+                        <li><a href="shop.html?search=food">Pet Food</a></li>
+                        <li><a href="shop.html?search=toy">Toys</a></li>
+                        <li><a href="shop.html?search=shampoo">Grooming</a></li>
+                        <li><a href="shop.html?search=bed">Accessories</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Get In Touch</h4>
+                    <ul class="contact-info">
+                        <li><i class="fa-solid fa-location-dot"></i> 123 Pet Lane, Paw City</li>
+                        <li><i class="fa-solid fa-phone"></i> (555) 123-4567</li>
+                        <li><i class="fa-solid fa-envelope"></i> hello@droolspet.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 DroolsPet. All rights reserved. Built for happy tails.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>

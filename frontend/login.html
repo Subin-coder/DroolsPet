@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - DroolsPet</title>
+  <meta name="description" content="Login to your DroolsPet account to manage orders, track deliveries, and shop premium pet supplies." />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="auth-split.css" />
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="index.html" class="logo">Drools<span>Pet</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+      </ul>
+      <div class="nav-right">
+        <a href="cart.html" class="icon-btn cart-icon" title="Shopping Cart">
+          <i class="fa-solid fa-cart-shopping"></i><span class="cart-count"></span>
+        </a>
+        <div class="auth-buttons"></div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="auth-page">
+    <div class="auth-split">
+      <section class="auth-split__left">
+        <div class="auth-shape auth-shape--1"></div>
+        <div class="auth-shape auth-shape--2"></div>
+        <div class="auth-shape auth-shape--3"></div>
+
+        <div class="auth-split__left-inner">
+          <div class="auth-hero">
+            <h2>Welcome Back</h2>
+            <p>Login to manage your orders, track deliveries, and checkout faster with DroolsPet.</p>
+          </div>
+
+          <div class="auth-features">
+            <div class="auth-feature-item">
+              <i class="fa-solid fa-truck-fast"></i>
+              <span>Fast delivery on all pet essentials</span>
+            </div>
+            <div class="auth-feature-item">
+              <i class="fa-solid fa-shield-halved"></i>
+              <span>Secure payments & data protection</span>
+            </div>
+            <div class="auth-feature-item">
+              <i class="fa-solid fa-paw"></i>
+              <span>100% satisfaction guarantee</span>
+            </div>
+          </div>
+
+          <div class="auth-illustration" aria-hidden="true">
+            <svg viewBox="0 0 420 260" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#1F5A4A" stop-opacity="0.25" />
+                  <stop offset="1" stop-color="#E58A64" stop-opacity="0.25" />
+                </linearGradient>
+              </defs>
+              <rect x="40" y="40" width="340" height="180" rx="26" fill="url(#g1)" stroke="rgba(31,90,74,0.18)" />
+              <circle cx="155" cy="115" r="36" fill="rgba(229,138,100,0.22)" />
+              <circle cx="255" cy="115" r="44" fill="rgba(31,90,74,0.16)" />
+              <path d="M120 186c32-26 48-30 75-30 30 0 48 8 70 28" fill="none" stroke="rgba(31,90,74,0.35)" stroke-width="6" stroke-linecap="round" />
+              <path d="M82 220c20-20 46-34 85-34" fill="none" stroke="rgba(229,138,100,0.35)" stroke-width="6" stroke-linecap="round" />
+              <path d="M310 220c-18-18-42-30-76-30" fill="none" stroke="rgba(31,90,74,0.35)" stroke-width="6" stroke-linecap="round" />
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <section class="auth-split__right">
+        <div class="auth-card">
+          <div class="auth-card__brand">
+            <div class="auth-card__brand-icon"><i class="fa-solid fa-paw"></i></div>
+            <div class="auth-card__brand-text">
+              <h2>Login</h2>
+              <p>Enter your details to continue.</p>
+            </div>
+          </div>
+
+          <form class="auth-form" onsubmit="return handleLogin(event)" onreset="return false;">
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" required placeholder="you@example.com" autocomplete="email" />
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" required placeholder="••••••••" autocomplete="current-password" />
+            </div>
+
+            <div class="auth-options-row">
+              <label class="remember-row" style="margin:0;">
+                <input class="check-input" type="checkbox" id="remember" disabled />
+                <span style="opacity:0.7">Remember me</span>
+              </label>
+              <button type="button" class="forgot-link" id="forgot-link">Forgot Password?</button>
+            </div>
+
+            <button type="submit" class="btn btn-primary auth-submit" id="login-submit">
+              <i class="fa-solid fa-right-to-bracket"></i> Login
+            </button>
+
+            <div class="auth-card__footer">
+              <span>Don't have an account?</span>
+              <a class="auth-link" href="register.html">Register</a>
+            </div>
+          </form>
+
+          <!-- Forgot Password Modal (front-end only) -->
+          <div class="forgot-modal" id="forgot-modal" aria-hidden="true">
+            <div class="forgot-modal__card" role="dialog" aria-modal="true" aria-labelledby="forgot-title">
+              <div class="forgot-modal__header">
+                <h3 id="forgot-title">Reset Password</h3>
+                <button type="button" class="forgot-modal__close" id="forgot-close" aria-label="Close">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+
+              <p class="forgot-modal__desc">Enter your email and we'll send reset instructions.</p>
+
+              <div class="form-group" style="margin-bottom: 12px;">
+                <label for="forgot-email">Email Address</label>
+                <input type="email" id="forgot-email" placeholder="you@example.com" autocomplete="email" />
+              </div>
+
+              <div class="forgot-modal__actions">
+                <button type="button" class="btn btn-primary forgot-modal__send" id="forgot-send">
+                  <i class="fa-solid fa-paper-plane"></i> Send
+                </button>
+                <button type="button" class="btn btn-outline forgot-modal__cancel" id="forgot-cancel">Cancel</button>
+              </div>
+
+              <div class="forgot-modal__note" id="forgot-note" style="display:none;"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2024 DroolsPet. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+  <script src="auth.js"></script>
+  <script>
+    if (UIHelper.isLoggedIn()) window.location.href = 'index.html';
+
+    // Forgot password modal (front-end only)
+    (function initForgotPasswordModal() {
+      const forgotLink = document.getElementById('forgot-link');
+      const modal = document.getElementById('forgot-modal');
+      const closeBtn = document.getElementById('forgot-close');
+      const cancelBtn = document.getElementById('forgot-cancel');
+      const sendBtn = document.getElementById('forgot-send');
+      const emailInput = document.getElementById('forgot-email');
+      const note = document.getElementById('forgot-note');
+
+      if (!forgotLink || !modal) return;
+
+      const openModal = () => {
+        modal.setAttribute('aria-hidden', 'false');
+        modal.classList.add('active');
+        if (note) {
+          note.style.display = 'none';
+          note.textContent = '';
+        }
+        if (emailInput) emailInput.focus();
+      };
+
+      const closeModal = () => {
+        modal.setAttribute('aria-hidden', 'true');
+        modal.classList.remove('active');
+      };
+
+      forgotLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal();
+      });
+
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+
+      if (sendBtn) {
+        sendBtn.addEventListener('click', () => {
+          const email = (emailInput?.value || '').trim();
+          if (!email) {
+            if (note) {
+              note.style.display = 'block';
+              note.style.color = 'var(--danger-color)';
+              note.textContent = 'Please enter your email.';
+            }
+            return;
+          }
+
+          const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+          if (!emailOk) {
+            if (note) {
+              note.style.display = 'block';
+              note.style.color = 'var(--danger-color)';
+              note.textContent = 'Please enter a valid email address.';
+            }
+            return;
+          }
+
+          if (note) {
+            note.style.display = 'block';
+            note.style.color = 'var(--success-color)';
+            note.textContent = 'Reset link will be sent to your email (demo).';
+          }
+        });
+      }
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal && modal.getAttribute('aria-hidden') === 'false') {
+          closeModal();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
