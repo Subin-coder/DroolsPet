@@ -61,16 +61,9 @@
                         <textarea id="address" name="address" required></textarea>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                        <div class="form-group">
-                            <label for="city"><i class="fa-solid fa-city" style="margin-right: 6px; opacity: 0.5;"></i>City</label>
-                            <input type="text" id="city" name="city" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="postal_code"><i class="fa-solid fa-envelope" style="margin-right: 6px; opacity: 0.5;"></i>Postal Code</label>
-                            <input type="text" id="postal_code" name="postal_code" required>
-                        </div>
+                    <div class="form-group">
+                        <label for="city"><i class="fa-solid fa-city" style="margin-right: 6px; opacity: 0.5;"></i>City</label>
+                        <input type="text" id="city" name="city" required>
                     </div>
 
                     <h2 style="margin-top: 30px;"><i class="fa-solid fa-wallet" style="margin-right: 10px; opacity: 0.6;"></i>Payment Method</h2>
@@ -132,7 +125,6 @@
             document.getElementById('phone').value = user.phone || '';
             document.getElementById('address').value = user.address || '';
             document.getElementById('city').value = user.city || '';
-            document.getElementById('postal_code').value = user.postal_code || '';
         }
 
         async function loadOrderSummary() {
@@ -181,14 +173,13 @@
             const phone = document.getElementById('phone').value;
             const address = document.getElementById('address').value;
             const city = document.getElementById('city').value;
-            const postal_code = document.getElementById('postal_code').value;
             const payment_method = document.querySelector('input[name="payment_method"]:checked').value;
 
-            const shipping_address = `${full_name}, ${phone}, ${address}, ${city} ${postal_code}`;
+            const shipping_address = `${full_name}, ${phone}, ${address}, ${city}`;
 
             // Update user profile
             await APIService.updateProfile({
-                full_name, phone, address, city, postal_code
+                full_name, phone, address, city
             });
 
             // Create order

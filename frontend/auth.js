@@ -6,6 +6,19 @@
     try {
       if (window.UIHelper?.updateHeader) UIHelper.updateHeader();
       if (window.UIHelper?.updateCartCount) UIHelper.updateCartCount();
+
+      // Pre-fill email if remember me was checked
+      const rememberedEmail = localStorage.getItem('remembered_email');
+      if (rememberedEmail) {
+        const emailInput = getEl('email');
+        if (emailInput) {
+          emailInput.value = rememberedEmail;
+          const rememberCheckbox = getEl('remember');
+          if (rememberCheckbox) {
+            rememberCheckbox.checked = true;
+          }
+        }
+      }
     } catch (e) {
       // no-op
     }
@@ -56,6 +69,7 @@
     try {
       const email = safeTrim(getEl('email')?.value);
       const password = getEl('password')?.value ?? '';
+      const rememberMe = getEl('remember')?.checked;
 
       const response = await APIService.login(email, password);
 
@@ -63,6 +77,14 @@
         const data = response.data;
         APIService.setAuthToken(data.token);
         APIService.setCurrentUser(data.user);
+
+        // Save email if remember me is checked
+        if (rememberMe) {
+          localStorage.setItem('remembered_email', email);
+        } else {
+          localStorage.removeItem('remembered_email');
+        }
+
         UIHelper.showAlert('Login successful!');
 
         setTimeout(() => {

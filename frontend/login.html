@@ -107,7 +107,7 @@
 
             <div class="auth-options-row">
               <label class="remember-row" style="margin:0;">
-                <input class="check-input" type="checkbox" id="remember" disabled />
+                <input class="check-input" type="checkbox" id="remember" />
                 <span style="opacity:0.7">Remember me</span>
               </label>
               <button type="button" class="forgot-link" id="forgot-link">Forgot Password?</button>
@@ -204,7 +204,7 @@
       if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
 
       if (sendBtn) {
-        sendBtn.addEventListener('click', () => {
+        sendBtn.addEventListener('click', async () => {
           const email = (emailInput?.value || '').trim();
           if (!email) {
             if (note) {
@@ -225,10 +225,32 @@
             return;
           }
 
-          if (note) {
+          // Call API
+          sendBtn.disabled = true;
+          sendBtn.textContent = 'Sending...';
+
+          try {
+            const response = await APIService.forgotPassword(email);
+
+            if (response.status === 200 && response.data?.token) {
+              // For demo purposes, show the reset link directly
+              // In production, this would be sent via email
+              const resetUrl = `${window.location.origin}/PetSupply_eCommerce/frontend/reset-password.html?token=${response.data.token}`;
+              note.style.display = 'block';
+              note.style.color = 'var(--success-color)';
+              note.innerHTML = `Password reset link generated (demo):<br><a href="${resetUrl}" style="color: var(--primary-green); font-weight: 600; text-decoration: underline;">Click here to reset password</a>`;
+            } else {
+              note.style.display = 'block';
+              note.style.color = 'var(--success-color)';
+              note.textContent = response.data?.message || 'If the email exists, a reset link has been sent.';
+            }
+          } catch (error) {
             note.style.display = 'block';
-            note.style.color = 'var(--success-color)';
-            note.textContent = 'Reset link will be sent to your email (demo).';
+            note.style.color = 'var(--danger-color)';
+            note.textContent = 'Failed to send reset link. Please try again.';
+          } finally {
+            sendBtn.disabled = false;
+            sendBtn.textContent = 'Send';
           }
         });
       }

@@ -96,6 +96,69 @@ else if ($action === 'verify-token' && $request_method === 'POST') {
     die(json_encode(['success' => true, 'user' => $user]));
 }
 
+else if ($action === 'forgot-password' && $request_method === 'POST') {
+    // Request password reset
+    if (empty($input['email'])) {
+        http_response_code(400);
+        die(json_encode(['error' => 'Email is required']));
+    }
+
+    $result = $user_model->createPasswordResetToken($input['email']);
+
+    if ($result['success']) {
+        http_response_code(200);
+    } else {
+        http_response_code(400);
+    }
+    die(json_encode($result));
+}
+
+else if ($action === 'reset-password' && $request_method === 'POST') {
+    // Reset password with token
+    if (empty($input['token']) || empty($input['password'])) {
+        http_response_code(400);
+        die(json_encode(['error' => 'Token and password are required']));
+    }
+
+    if (strlen($input['password']) < 6) {
+        http_response_code(400);
+        die(json_encode(['error' => 'Password must be at least 6 characters']));
+    }
+
+    $result = $user_model->resetPassword($input['token'], $input['password']);
+
+    if ($result['success']) {
+        http_response_code(200);
+    } else {
+        http_response_code(400);
+    }
+    die(json_encode($result));
+}
+
+else if ($action === 'change-password' && $request_method === 'POST') {
+    // Change password for authenticated user
+    $user = AuthMiddleware::authenticate();
+
+    if (empty($input['current_password']) || empty($input['new_password'])) {
+        http_response_code(400);
+        die(json_encode(['error' => 'Current password and new password are required']));
+    }
+
+    if (strlen($input['new_password']) < 6) {
+        http_response_code(400);
+        die(json_encode(['error' => 'New password must be at least 6 characters']));
+    }
+
+    $result = $user_model->changePassword($user['user_id'], $input['current_password'], $input['new_password']);
+
+    if ($result['success']) {
+        http_response_code(200);
+    } else {
+        http_response_code(400);
+    }
+    die(json_encode($result));
+}
+
 else {
     http_response_code(404);
     die(json_encode(['error' => 'Auth endpoint not found']));

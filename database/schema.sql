@@ -135,6 +135,19 @@ CREATE TABLE admin_logs (
     INDEX idx_created_at (created_at)
 );
 
+-- Password Resets table
+CREATE TABLE password_resets (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    token VARCHAR(255) UNIQUE NOT NULL,
+    expires_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_token (token),
+    INDEX idx_user (user_id),
+    INDEX idx_expires (expires_at)
+);
+
 -- Create indexes for better query performance
 CREATE INDEX idx_orders_user_created ON orders(user_id, created_at);
 CREATE INDEX idx_products_active_category ON products(is_active, category_id);

@@ -42,7 +42,7 @@
                 <a href="index.html">Home</a> / <span>Shop</span>
             </div>
             <h1>Everything for your best friend</h1>
-            <p>Premium nourishment and toys curated with love for pets of all shapes and sizes. Free shipping on orders over $50.</p>
+            <p>Premium nourishment and toys curated with love for pets of all shapes and sizes. Free shipping on orders over Rs. 50.</p>
         </div>
     </section>
 
@@ -85,8 +85,8 @@
                         <div class="price-slider-container">
                             <input type="range" id="priceSlider" class="price-slider" min="0" max="500" value="500" step="10">
                             <div class="price-slider-values">
-                                <span>$0</span>
-                                <span id="priceSliderValue" style="color: var(--primary-green); font-weight: 700;">$500+</span>
+                                <span>Rs. 0</span>
+                                <span id="priceSliderValue" style="color: var(--primary-green); font-weight: 700;">Rs. 500+</span>
                             </div>
                         </div>
                     </div>
@@ -122,7 +122,7 @@
                                 </select>
                             </div>
                             <div class="layout-switchers">
-                                <button class="layout-btn active" onclick="setLayout('grid', this)"><i class="fa-solid fa-grid-2"></i></button>
+                                <button class="layout-btn active" onclick="setLayout('grid', this)"><i class="fa-solid fa-grip"></i></button>
                                 <button class="layout-btn" onclick="setLayout('list', this)"><i class="fa-solid fa-list"></i></button>
                             </div>
                         </div>
@@ -340,7 +340,7 @@
 
         function formatUSD(amount) {
             const val = parseFloat(amount);
-            return isNaN(val) ? '$0.00' : `$${val.toFixed(2)}`;
+            return isNaN(val) ? 'Rs. 0.00' : `Rs. ${val.toFixed(2)}`;
         }
 
         // Update counts in categories sidebar dynamically based on backend records
@@ -593,7 +593,7 @@
         // Slider value update triggers
         document.getElementById('priceSlider').addEventListener('input', (e) => {
             const val = e.target.value;
-            document.getElementById('priceSliderValue').textContent = val == 500 ? '$500+' : `$${val}`;
+            document.getElementById('priceSliderValue').textContent = val == 500 ? 'Rs. 500+' : `Rs. ${val}`;
             applyFilters();
         });
 

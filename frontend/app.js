@@ -136,7 +136,19 @@ class APIService {
     static async verifyToken() {
         return this.request('/auth/verify-token', 'POST');
     }
-    
+
+    static async forgotPassword(email) {
+        return this.request('/auth/forgot-password', 'POST', { email });
+    }
+
+    static async resetPassword(token, password) {
+        return this.request('/auth/reset-password', 'POST', { token, password });
+    }
+
+    static async changePassword(currentPassword, newPassword) {
+        return this.request('/auth/change-password', 'POST', { current_password: currentPassword, new_password: newPassword });
+    }
+
     // Products endpoints
     static async getProducts(page = 1, limit = 20, category_id = null) {
         let url = `/products?page=${page}&limit=${limit}`;
