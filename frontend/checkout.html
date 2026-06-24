@@ -10,20 +10,28 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Header -->
+    <!-- Header & Navigation -->
     <header>
         <nav>
             <a href="index.html" class="logo">Drools<span>Pet</span></a>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="shop.html">Shop</a></li>
-                <li><a href="cart.html">Cart</a></li>
+                <li><a href="categories.html">Categories</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
             <div class="nav-right">
+                <form class="nav-search-form">
+                    <i class="fa-solid fa-magnifying-glass nav-search-icon"></i>
+                    <input type="text" class="nav-search-input" placeholder="Search for treats, toys...">
+                </form>
                 <a href="cart.html" class="icon-btn cart-icon" title="Shopping Cart">
                     <i class="fa-solid fa-cart-shopping"></i><span class="cart-count"></span>
                 </a>
-                <div class="auth-buttons"></div>
+                <div class="auth-buttons">
+                    <!-- Loaded dynamically via app.js UIHelper.updateHeader() -->
+                </div>
             </div>
         </nav>
     </header>

@@ -490,6 +490,18 @@ document.addEventListener('DOMContentLoaded', function() {
     UIHelper.updateHeader();
     UIHelper.updateCartCount();
     UIHelper.initNavigation();
+
+    // Global header search handler
+    const searchForm = document.querySelector('.nav-search-form');
+    if (searchForm) {
+        searchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const query = searchForm.querySelector('.nav-search-input').value.trim();
+            if (query) {
+                window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
+            }
+        });
+    }
 });
 
 // Global logout function
