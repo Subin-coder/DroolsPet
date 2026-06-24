@@ -53,29 +53,25 @@
                     <div class="filter-section">
                         <h3>Categories</h3>
                         <ul class="category-filter-list">
-                            <li class="category-filter-item active" onclick="filterByPetType('all', this)">
-                                <span><i class="fa-solid fa-paw"></i> All Pets</span>
-                                <span class="category-count-badge" id="count-all">24</span>
-                            </li>
                             <li class="category-filter-item" onclick="filterByPetType('dog', this)">
-                                <span><i class="fa-solid fa-dog"></i> Dog</span>
-                                <span class="category-count-badge" id="count-dog">10</span>
+                                <span><i class="fa-solid fa-dog icon-dog"></i> Dog</span>
+                                <span class="category-count-badge" id="count-dog">124</span>
                             </li>
                             <li class="category-filter-item" onclick="filterByPetType('cat', this)">
-                                <span><i class="fa-solid fa-cat"></i> Cat</span>
-                                <span class="category-count-badge" id="count-cat">8</span>
+                                <span><i class="fa-solid fa-cat icon-cat"></i> Cat</span>
+                                <span class="category-count-badge" id="count-cat">89</span>
                             </li>
                             <li class="category-filter-item" onclick="filterByPetType('bird', this)">
-                                <span><i class="fa-solid fa-dove"></i> Bird</span>
-                                <span class="category-count-badge" id="count-bird">2</span>
+                                <span><i class="fa-solid fa-dove icon-bird"></i> Bird</span>
+                                <span class="category-count-badge" id="count-bird">42</span>
                             </li>
                             <li class="category-filter-item" onclick="filterByPetType('fish', this)">
-                                <span><i class="fa-solid fa-fish"></i> Fish</span>
-                                <span class="category-count-badge" id="count-fish">2</span>
+                                <span><i class="fa-solid fa-fish icon-fish"></i> Fish</span>
+                                <span class="category-count-badge" id="count-fish">56</span>
                             </li>
                             <li class="category-filter-item" onclick="filterByPetType('small_pets', this)">
-                                <span><i class="fa-solid fa-hippo"></i> Small Pets</span>
-                                <span class="category-count-badge" id="count-small_pets">2</span>
+                                <span><i class="fa-solid fa-rabbit icon-small-pets"></i> Small Pets</span>
+                                <span class="category-count-badge" id="count-small_pets">31</span>
                             </li>
                         </ul>
                     </div>
@@ -84,17 +80,17 @@
                     <div class="filter-section">
                         <h3>Price Range</h3>
                         <div class="price-slider-container">
-                            <input type="range" id="priceSlider" class="price-slider" min="0" max="150" value="150" step="5">
+                            <input type="range" id="priceSlider" class="price-slider" min="0" max="500" value="500" step="10">
                             <div class="price-slider-values">
-                                <span>Rs. 0</span>
-                                <span id="priceSliderValue" style="color: var(--primary-green); font-weight: 700;">Rs. 150+</span>
+                                <span>$0</span>
+                                <span id="priceSliderValue" style="color: var(--primary-green); font-weight: 700;">$500+</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Member Special Promo Banner -->
                     <div class="member-special-card">
-                        <h4>Member Special</h4>
+                        <h4>MEMBER SPECIAL</h4>
                         <p>20% Off Treats</p>
                         <button class="btn" onclick="applyTreatsFilter()">Shop Sale</button>
                     </div>
@@ -338,9 +334,14 @@
             }
         }
 
+        function formatUSD(amount) {
+            const val = parseFloat(amount);
+            return isNaN(val) ? '$0.00' : `$${val.toFixed(2)}`;
+        }
+
         // Update counts in categories sidebar dynamically based on backend records
         function updateFilterCounters() {
-            const counts = { all: allProducts.length, dog: 0, cat: 0, bird: 0, fish: 0, small_pets: 0 };
+            const counts = { dog: 0, cat: 0, bird: 0, fish: 0, small_pets: 0 };
             
             allProducts.forEach(product => {
                 const p = mapProductToShopMockup(product);
@@ -349,12 +350,11 @@
                 }
             });
 
-            document.getElementById('count-all').textContent = counts.all;
-            document.getElementById('count-dog').textContent = counts.dog;
-            document.getElementById('count-cat').textContent = counts.cat;
-            document.getElementById('count-bird').textContent = counts.bird;
-            document.getElementById('count-fish').textContent = counts.fish;
-            document.getElementById('count-small_pets').textContent = counts.small_pets;
+            if (document.getElementById('count-dog')) document.getElementById('count-dog').textContent = counts.dog;
+            if (document.getElementById('count-cat')) document.getElementById('count-cat').textContent = counts.cat;
+            if (document.getElementById('count-bird')) document.getElementById('count-bird').textContent = counts.bird;
+            if (document.getElementById('count-fish')) document.getElementById('count-fish').textContent = counts.fish;
+            if (document.getElementById('count-small_pets')) document.getElementById('count-small_pets').textContent = counts.small_pets;
         }
 
         // Apply filters, slider value, sorting, and pagination
@@ -456,9 +456,9 @@
                     badgeHtml = `<span class="product-badge ${badgeClass}">${p.badge}</span>`;
                 }
 
-                let priceHtml = UIHelper.formatCurrency(p.price);
+                let priceHtml = formatUSD(p.price);
                 if (p.original_price) {
-                    priceHtml = `${UIHelper.formatCurrency(p.price)} <span style="text-decoration: line-through; color: var(--text-muted); font-size: 13px; margin-left: 6px;">${UIHelper.formatCurrency(p.original_price)}</span>`;
+                    priceHtml = `${formatUSD(p.price)} <span style="text-decoration: line-through; color: var(--text-muted); font-size: 13px; margin-left: 6px;">${formatUSD(p.original_price)}</span>`;
                 }
 
                 if (currentLayout === 'list') {
@@ -571,20 +571,25 @@
 
         // Filter by sidebar category links
         function filterByPetType(type, element) {
+            const wasActive = element && element.classList.contains('active');
             document.querySelectorAll('.category-filter-item').forEach(item => {
                 item.classList.remove('active');
             });
-            if (element) {
-                element.classList.add('active');
+            if (wasActive) {
+                activePetType = 'all';
+            } else {
+                if (element) {
+                    element.classList.add('active');
+                }
+                activePetType = type;
             }
-            activePetType = type;
             applyFilters();
         }
 
         // Slider value update triggers
         document.getElementById('priceSlider').addEventListener('input', (e) => {
             const val = e.target.value;
-            document.getElementById('priceSliderValue').textContent = val == 150 ? 'Rs. 150+' : UIHelper.formatCurrency(val);
+            document.getElementById('priceSliderValue').textContent = val == 500 ? '$500+' : `$${val}`;
             applyFilters();
         });
 
