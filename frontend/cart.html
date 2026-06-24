@@ -90,6 +90,9 @@
             window.location.href = 'login.html';
         }
 
+        const currentUser = APIService.getCurrentUser();
+        const isAdminUser = currentUser && (currentUser.role === 'admin' || currentUser.user_type === 'admin' || currentUser.is_admin == 1);
+
         async function loadCart() {
             const response = await APIService.getCart();
 
@@ -166,6 +169,10 @@
         }
 
         function proceedToCheckout() {
+            if (isAdminUser) {
+                UIHelper.showError('Admins have view-only access and cannot purchase or proceed to checkout.');
+                return;
+            }
             window.location.href = 'checkout.html';
         }
 

@@ -21,7 +21,10 @@
                 <li><a href="contact.html">Contact</a></li>
             </ul>
             <div class="nav-right">
-                <button class="icon-btn" onclick="document.getElementById('searchInput').focus();" title="Search Catalog"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <form class="nav-search-form">
+                    <i class="fa-solid fa-magnifying-glass nav-search-icon"></i>
+                    <input type="text" class="nav-search-input" placeholder="Search for treats, toys...">
+                </form>
                 <a href="cart.html" class="icon-btn cart-icon" title="Shopping Cart">
                     <i class="fa-solid fa-cart-shopping"></i><span class="cart-count"></span>
                 </a>
@@ -99,7 +102,8 @@
                 <!-- Product Catalog List -->
                 <main class="catalog-content">
                     <!-- Search Input inside Shop Layout -->
-                    <div class="search-bar-container" style="max-width: 100%; margin-bottom: 25px;">
+                    <div class="search-bar-container">
+                        <i class="fa-solid fa-magnifying-glass search-bar-icon"></i>
                         <input type="text" id="searchInput" class="search-input" placeholder="Search catalog for pet items...">
                     </div>
 
@@ -701,8 +705,23 @@
             const preSearch = urlParams.get('search');
             if (preSearch) {
                 document.getElementById('searchInput').value = preSearch;
+                const headerSearchInput = document.querySelector('.nav-search-input');
+                if (headerSearchInput) headerSearchInput.value = preSearch;
             }
             loadCatalog();
+
+            // Bind header search to filter dynamically if on shop page
+            const headerSearchForm = document.querySelector('.nav-search-form');
+            const headerSearchInput = document.querySelector('.nav-search-input');
+            if (headerSearchForm) {
+                headerSearchForm.addEventListener('submit', (e) => e.preventDefault());
+            }
+            if (headerSearchInput) {
+                headerSearchInput.addEventListener('input', (e) => {
+                    document.getElementById('searchInput').value = e.target.value;
+                    applyFilters();
+                });
+            }
         });
     </script>
 </body>

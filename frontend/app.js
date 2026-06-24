@@ -193,6 +193,13 @@ class APIService {
     }
     
     static async addToCart(product_id, quantity = 1) {
+        const user = this.getCurrentUser();
+        if (user && (user.role === 'admin' || user.user_type === 'admin' || user.is_admin == 1)) {
+            return {
+                status: 403,
+                data: { error: 'Admins have view-only access and cannot purchase or add items to cart.' }
+            };
+        }
         return this.request('/cart', 'POST', { product_id, quantity });
     }
     

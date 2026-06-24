@@ -112,6 +112,11 @@
         }
 
         const user = APIService.getCurrentUser();
+        const isAdmin = user && (user.role === 'admin' || user.user_type === 'admin' || user.is_admin == 1);
+        if (isAdmin) {
+            alert('Admins have view-only access and cannot purchase or access the checkout page.');
+            window.location.href = 'index.html';
+        }
 
         // Pre-fill user information
         if (user) {
